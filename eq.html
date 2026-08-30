@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天下第二泉 - 惠山泉 | 无锡惠山古镇</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tea: '#4A5D45',
+                        stone: '#78716c',
+                        cream: '#f8f6f0',
+                    },
+                    fontFamily: {
+                        song: ['SimSun', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .carousel-item {
+                transition: transform 0.6s ease-in-out;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            }
+            /* 锚点偏移，避开sticky导航栏 */
+            .anchor-offset {
+                scroll-margin-top: 64px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-cream text-stone-800 font-song">
+    <!-- 顶部轮播区域 -->
+    <div class="relative w-full h-[420px] overflow-hidden" id="carousel">
+        <div class="flex h-full" id="carousel-wrapper">
+            <div class="carousel-item w-full h-full flex-shrink-0">
+                <img src="F:\惠山古镇大创\tp\eqlb1.jpg" alt="天下第二泉实景" class="w-full h-full object-cover">
+            </div>
+            <div class="carousel-item w-full h-full flex-shrink-0">
+                <img src="F:\惠山古镇大创\tp\eqlb2.jpg" alt="二泉春日夜景" class="w-full h-full object-cover">
+            </div>
+                    </div>
+        <!-- 轮播标题 -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <h1 class="text-[clamp(2rem,5vw,4rem)] text-white font-bold text-shadow">天下第二泉</h1>
+        </div>
+        <!-- 轮播箭头 -->
+        <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+            <i class="fa fa-angle-left text-xl"></i>
+        </button>
+        <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+            <i class="fa fa-angle-right text-xl"></i>
+        </button>
+        <!-- 轮播指示器 -->
+        <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2" id="carousel-dots">
+            <span class="dot w-3 h-3 rounded-full bg-white/80 cursor-pointer"></span>
+            <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+            <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="sticky top-0 bg-tea text-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-2 justify-center">
+            <a href="#intro" class="hover:text-amber-200 transition">首页·二泉简介</a>
+            <a href="#pool" class="hover:text-amber-200 transition">泉池基础概况</a>
+            <a href="#history" class="hover:text-amber-200 transition">历史人文典故</a>
+            <a href="#tea" class="hover:text-amber-200 transition">泉茶文化专题</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-10">
+        <!-- 二泉简介板块 -->
+        <section id="intro" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">二泉简介</h2>
+            <!-- 新增简介文本 -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <p class="leading-relaxed">
+                    位于惠山东麓，庭院由泉、池、亭台、碑刻等组成，清雅古朴。2006年被列为全国重点文物保护单位。相传惠山泉是唐朝无锡县令敬澄派人所开凿，泉水含矿物质多，水色清纯，甘冽可口。唐代茶圣陆羽认为"惠山石泉第二"，从此惠山泉以"天下第二泉"的美名享誉四海。"二泉"分上、中、下三池，下池有一石螭首，构成"螭吻飞泉"胜景。唐代无锡籍著名诗人李绅赞其为"人间灵液"。宋朝时宋徽宗曾将二泉水列为贡品。苏东坡吟有"独携天上小团月，来试人间第二泉"的佳句。民间音乐家阿炳的一曲《二泉映月》，更使二泉妙不可言，名闻天下。
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 导览地图 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-3 text-tea"><i class="fa fa-map-o mr-2"></i>导览地图</h3>
+                    <div class="h-64 bg-stone-100 rounded flex items-center justify-center text-stone-500">
+                        <p>此处放置惠山古镇导览地图图片，标记天下第二泉位置</p>
+                    </div>
+                    <p class="mt-3 text-sm text-stone-600">地址：无锡惠山古镇内，天下第二泉景点区域</p>
+                </div>
+                <!-- 公告栏 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-3 text-tea"><i class="fa fa-bullhorn mr-2"></i>公告栏</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold">开放时间</h4>
+                            <p>08:00 — 17:30（以景区现场公告为准）</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">门票政策</h4>
+                            <p>包含于惠山古镇景区套票内，无单独小门票，优待政策参照景区官方公告。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 泉池基础概况 -->
+        <section id="pool" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">泉池基础概况</h2>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.1 二泉基础信息</h3>
+                <ul class="space-y-2">
+                    <li><span class="font-semibold">地理位置：</span>无锡惠山古镇</li>
+                    <li><span class="font-semibold">开凿历史：</span>唐大历末年（779年）由无锡县令敬澄开凿</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.2 三池结构详解</h3>
+                <p class="mb-4">天下第二泉的水系由上、中、下三池构成，三池的开凿年代、形制、功能各不相同，形成一个完整的阶梯式水景体系。</p>
+                <div class="space-y-6">
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">上池（泉源之池）</h4>
+                        <p><strong>形制：</strong>呈八角形，边长0.8米，深1.94米，围以八角形青石井栏。八角形暗合“天圆”之象，与中池的方形形成“天圆地方”的空间哲学。</p>
+                        <p><strong>水质特征：</strong>为泉源所在，水质最佳。水色透明、甘冽可口，历史上以表面张力大、满杯隆起数毫米而不溢著称。</p>
+                    </div>
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">中池（过渡之池）</h4>
+                        <p><strong>形制：</strong>呈正方形，边长1.4米，深1米，围以方形石栏。方形象征“地方”，与上池八角形构成“天圆地方”格局。</p>
+                        <p><strong>水系关系：</strong>两池相距仅0.65米，池壁上方凿有水口相通，泉水由上池流入中池。中池水体清淡，水质仅次于上池。</p>
+                    </div>
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">下池（蓄水之池）</h4>
+                        <p><strong>形制：</strong>呈长方形，长8.6米、宽5.75米，深约0.33米，为三池中规模最大者，实兼具蓄水与观鱼功能。</p>
+                        <p><strong>石螭首（关键构件）：</strong>下池西侧池壁嵌有明代弘治十四年（1501年）邑人杨理雕刻的石螭首（俗称石龙头）。泉水经暗渠由中池引至螭口，再从螭口吐入下池，取“水不在深，有龙则灵”之意。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.3 泉亭解读</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>水文特征：惠山泉属裂隙泉，经“千岩涤滤、松根浸润”，水质甘冽清爽。上池深1.94米，围八角石栏；中池深1米，围方形石栏，两池相距0.65米，上凿水口相通。</li>
+                    <li>“天圆地方”的空间哲学：上池八角形（天）、中池方形（地），下池开凿于北宋明道年间。下池螭首吐水设计，取“水不在深，有龙则灵”之意。</li>
+                    <li>庭院布局：中轴线上二泉亭、漪澜堂与泉池结合自然山势布置，缀以太湖石峰。20世纪90年代泉水自然断流，现以人工注水维持。</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.4 碑刻解读</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>赵孟頫题匾：元代赵孟頫楷书“天下第二泉”五字，原木匾明末流失，清嘉庆八年摹刻于石后重置于泉亭。碑高25厘米，长37厘米。</li>
+                    <li>王澍石刻：清雍正六年（1728年），王澍重书“天下第二泉”刻于五块青石，总长650厘米，现存二泉亭北侧粉墙。</li>
+                    <li>轶闻钩沉：王澍所书扬州“天下第五泉”系从惠山“二”字改刻而来，《扬州画舫录》载其事，足见二泉题刻的影响力。</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold mb-3">2.5 “试第二泉”如何演变为文人身份认同的文化仪式？</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>经典诗句：苏轼“独携天上小团月，来试人间第二泉”（1073年）成为最著名的“广告语”，后世反复引用。</li>
+                    <li>茶会图卷：明正德十三年（1518年），文徵明与友惠山茶会，作《惠山茶会图》，成为茶文化史经典图像。图中二泉亭为茅亭构造，与现存清代建筑不同。</li>
+                    <li>文化逻辑：明人冯梦龙笔下唐寅“到了这里，若不取惠山泉也就俗了”——“试泉”成为区分雅俗的文化标尺。</li>
+                    <li>泉水的流动：唐宋时期惠山泉被远运至长安、汴京，形成“泉水运输”的特殊文化实践，宋人发展出“渍小石”“拆洗”等保鲜方法。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 历史人文典故 -->
+        <section id="history" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">历史人文典故</h2>
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">3.1 名号由来</h3>
+                <p>陆羽在品评天下之水味醇质时共选出前二十名称“常州无锡县惠山石泉第二”。故号称“天下第二泉”又称“陆子泉”。</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">3.2 名人诗词与轶事</h3>
+                <div class="space-y-4">
+                    <div>
+                        <p>①唐代著名《悯农》诗人李绅（772—846年）字公垂，无锡人，唐宪宗元和年进士，少年时常来惠山读书，饮此茗泉，认为它“乃人间灵液、清鉴肌骨，漱开神虑。茶得此水，皆尽芳味也。”</p>
+                        <blockquote class="my-3 pl-4 border-l-4 border-amber-500 italic">
+                            晴沙见底空无色，青石潜流暗有声。微动竹风涵淅沥，细浮松月透轻盈。<br>
+                            桂凝秋露添灵液，茗折春芽泛玉英。应是梵居连洞府，浴池今化醴泉清。
+                        </blockquote>
+                        <p>北宋大文豪苏东坡于神宗熙宁七年（1074年）携小龙团来试二泉水，品茗后认为它是“乳水”、“色味两奇绝”，留下千古名句：<span class="font-semibold">独携天上小团月，来试人间第二泉</span>。</p>
+                    </div>
+                    <div>
+                        <p>②苏教版国标本第十册课文《二泉映月》</p>
+                        <p>③二十世纪五十年代中国江南无锡街头流浪瞎眼艺人阿炳创作演奏的二胡曲《二泉映月》。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold mb-3">3.3 皇家与民间印迹</h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>北宋徽宗政和年间（1111—1118年）列为贡品</li>
+                    <li>清代康熙、乾隆二帝南巡时每次必临二泉品茗。并留下许多御碑、匾额赞美惠山之湖光山色和二泉灵液</li>
+                    <li>1997年4月8日，邮电部发行《茶》邮票一套，其中“茶会”图案系明代文征明绘画《惠山茶会图》的局部，记录清明时节，画家偕好友在无锡西郊惠山游春煮茶品茗赋诗吟诵的情景。</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 泉茶文化专题 -->
+        <section id="tea" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">泉茶文化专题</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.1 泉茶适配原理</h3>
+                    <p>惠山泉水质清冽，矿物质含量适中，低杂质，适合冲泡各类名茶，可激发茶叶香气与滋味。</p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.2 历代饮茶风尚</h3>
+                    <p>唐代煎茶、宋代点茶、明清泡茶，千百年来文人雅士汇聚二泉，以泉水煮茶，形成独特的品泉文化。</p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.3 当代茶文化活动</h3>
+                    <p>品泉雅集、茶文化讲座、传统点茶体验，传承二泉千年茶文化。</p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.4 景区相关活动</h3>
+                    <p>惠山古镇四季茶文化主题活动，结合二泉历史开展研学、写生、雅集活动。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-tea text-white py-8 text-center">
+        <p>天下第二泉｜无锡惠山古镇</p>
+        <p class="text-sm mt-2">仅供文化科普展示页面</p>
+    </footer>
+
+    <!-- 轮播JS脚本 -->
+    <script>
+        const wrapper = document.getElementById('carousel-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        let index = 0;
+        const total = 3;
+
+        function updateCarousel(){
+            wrapper.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot,i)=>{
+                dot.style.backgroundColor = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)';
+            })
+        }
+
+        function next(){
+            index = (index + 1) % total;
+            updateCarousel();
+        }
+        function prev(){
+            index = (index -1 + total) % total;
+            updateCarousel();
+        }
+
+        nextBtn.addEventListener('click',next);
+        prevBtn.addEventListener('click',prev);
+        dots.forEach((dot,i)=>{
+            dot.addEventListener('click',()=>{
+                index = i;
+                updateCarousel();
+            })
+        })
+        //自动轮播
+        let timer = setInterval(next,4500);
+        document.getElementById('carousel').addEventListener('mouseenter',()=>clearInterval(timer));
+        document.getElementById('carousel').addEventListener('mouseleave',()=>timer = setInterval(next,4500));
+
+        //平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
