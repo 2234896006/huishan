@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天下第二泉 - 惠山泉 | 无锡惠山古镇</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tea: '#4A5D45',
+                        stone: '#78716c',
+                        cream: '#f8f6f0',
+                    },
+                    fontFamily: {
+                        song: ['SimSun', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .carousel-item {
+                transition: transform 0.6s ease-in-out;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            }
+            /* 锚点偏移，避开sticky导航栏 */
+            .anchor-offset {
+                scroll-margin-top: 64px;
+            }
+            /* 双语显示控制 */
+            .lang-en { display: none; }
+            html[lang="en"] .lang-zh { display: none; }
+            html[lang="en"] .lang-en { display: block; }
+        }
+    </style>
+</head>
+<body class="bg-cream text-stone-800 font-song">
+    <!-- 顶部轮播区域 -->
+    <div class="relative w-full h-[420px] overflow-hidden" id="carousel">
+        <div class="flex h-full" id="carousel-wrapper">
+            <div class="carousel-item w-full h-full flex-shrink-0">
+                <img src="./eqlb1.jpg " alt="天下第二泉实景" class="w-full h-full object-cover">
+            </div>
+            <div class="carousel-item w-full h-full flex-shrink-0">
+                <img src="./eqlb2.jpg" alt="二泉春日夜景" class="w-full h-full object-cover">
+            </div>
+            <div class="carousel-item w-full h-full flex-shrink-0">
+                <img src="./dl.jpeg" alt="二泉秋日夜景" class="w-full h-full object-cover">
+            </div>
+        </div>
+        <!-- 轮播标题：修改英文排版 -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <h1 class="text-[clamp(2rem,5vw,4rem)] text-white font-bold text-shadow text-center">
+                <span class="lang-zh">天下第二泉</span>
+                <span class="lang-en block">Huishan Spring<br><span class="text-[clamp(1.2rem,2.5vw,2rem)]">— The Second Best Spring under Heaven</span></span>
+            </h1>
+        </div>
+        <!-- 轮播箭头 -->
+        <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+            <i class="fa fa-angle-left text-xl"></i>
+        </button>
+        <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+            <i class="fa fa-angle-right text-xl"></i>
+        </button>
+        <!-- 轮播指示器 -->
+        <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2" id="carousel-dots">
+            <span class="dot w-3 h-3 rounded-full bg-white/80 cursor-pointer"></span>
+            <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+            <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+        </div>
+    </div>
+
+    <!-- 导航栏 + 语言切换按钮 -->
+    <nav class="sticky top-0 bg-tea text-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-2 items-center justify-center">
+            <a href="#intro" class="hover:text-amber-200 transition">
+                <span class="lang-zh">首页·二泉简介</span>
+                <span class="lang-en">Intro</span>
+            </a>
+            <a href="#pool" class="hover:text-amber-200 transition">
+                <span class="lang-zh">泉池基础概况</span>
+                <span class="lang-en">Spring‑pool Overview</span>
+            </a>
+            <a href="#history" class="hover:text-amber-200 transition">
+                <span class="lang-zh">历史人文典故</span>
+                <span class="lang-en">History & Anecdotes</span>
+            </a>
+            <a href="#tea" class="hover:text-amber-200 transition">
+                <span class="lang-zh">泉茶文化专题</span>
+                <span class="lang-en">Spring‑Tea Culture</span>
+            </a>
+            <!-- 语言切换 -->
+            <div class="ml-4">
+                <button id="btnZh" class="px-3 py-1 rounded bg-amber-200 text-tea mr-1">中文</button>
+                <button id="btnEn" class="px-3 py-1 rounded bg-white/20">English</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-10">
+        <!-- 二泉简介板块 -->
+        <section id="intro" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+                <span class="lang-zh">二泉简介</span>
+                <span class="lang-en">Brief Introduction to Huishan Spring</span>
+            </h2>
+            <!-- 简介文本 双语 -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <p class="leading-relaxed lang-zh">
+                    位于惠山东麓，庭院由泉、池、亭台、碑刻等组成，清雅古朴。2006年被列为全国重点文物保护单位。相传惠山泉是唐朝无锡县令敬澄派人所开凿，泉水含矿物质多，水色清纯，甘冽可口。唐代茶圣陆羽认为"惠山石泉第二"，从此惠山泉以"天下第二泉"的美名享誉四海。"二泉"分上、中、下三池，下池有一石螭首，构成"螭吻飞泉"胜景。唐代无锡籍著名诗人李绅赞其为"人间灵液"。宋朝时宋徽宗曾将二泉水列为贡品。苏东坡吟有"独携天上小团月，来试人间第二泉"的佳句。民间音乐家阿炳的一曲《二泉映月》，更使二泉妙不可言，名闻天下。
+                </p>
+                <p class="leading-relaxed lang-en">
+                    Located at the eastern foot of Huishan Mountain, the elegant and simple courtyard consists of springs, pools, pavilions, terraces and stone inscriptions. It was designated as a National Key Cultural Relic Protection Unit in 2006. According to legend, Huishan Spring was dug by workers dispatched by Jing Cheng, Magistrate of Wuxi County in the Tang Dynasty. Rich in minerals, its water is pure, clear and delicious. Lu Yu, the Tea Saint of Tang Dynasty, ranked “Huishan Stone‑Spring” second among all springs. Since then Huishan Spring has become famous as “The Second Best Spring under Heaven”. It is divided into upper, middle and lower pools. A stone chilong‑head in the lower pool creates the spectacular scene of “Chilong spouting spring water”. Li Shen, a distinguished poet born in Wuxi in Tang Dynasty, praised it as “Spiritual Liquid on Earth”. In the Song Dynasty, Emperor Huizong listed Huishan spring‑water as imperial tribute. Su Dongpo composed the well‑known verse: “Bring alone the small moon‑shaped tea cake from heaven, to taste the second spring on earth”. The folk musician Ah Bing’s erhu piece <em>Moon over a Fountain</em> made the spring world‑famous.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 导览地图 增加点击弹窗 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 id="mapClickTitle" class="text-xl font-bold mb-3 text-tea cursor-pointer hover:text-tea/70"><i class="fa fa-map-o mr-2"></i>
+                        <span class="lang-zh">导览地图（点击放大查看）</span>
+                        <span class="lang-en">Tour Map (Click to enlarge)</span>
+                    </h3>
+                    <div id="mapClickWrap" class="h-64 bg-stone-100 rounded overflow-hidden cursor-pointer">
+                        <img src="./dl.jpeg "
+                             alt="惠山古镇手绘导览地图，标记天下第二泉位置"
+                             class="w-full h-full object-contain">
+                    </div>
+                    <p class="mt-3 text-sm text-stone-600">
+                        <span class="lang-zh">地址：无锡惠山古镇内，天下第二泉景点区域</span>
+                        <span class="lang-en">Address: Within Huishan Ancient Town scenic area, Wuxi</span>
+                    </p>
+                </div>
+                <!-- 公告栏 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-3 text-tea"><i class="fa fa-bullhorn mr-2"></i>
+                        <span class="lang-zh">公告栏</span>
+                        <span class="lang-en">Notice Board</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold">
+                                <span class="lang-zh">开放时间</span>
+                                <span class="lang-en">Opening Hours</span>
+                            </h4>
+                            <p>
+                                <span class="lang-zh">08:00 — 17:30（以景区现场公告为准）</span>
+                                <span class="lang-en">08:00 ~17:30 (subject to on‑site notices of the scenic area)</span>
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">
+                                <span class="lang-zh">门票政策</span>
+                                <span class="lang-en">Ticketing Regulations</span>
+                            </h4>
+                            <p>
+                                <span class="lang-zh">包含于惠山古镇景区套票内，无单独小门票，优待政策参照景区官方公告。</span>
+                                <span class="lang-en">Access is included in the combined ticket for Huishan Ancient Town Scenic Area. No individual entry ticket is available. Preferential admission policies shall be governed by the official announcements of the scenic area.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 泉池基础概况 -->
+        <section id="pool" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+                <span class="lang-zh">泉池基础概况</span>
+                <span class="lang-en">Basic Overview of Huishan Spring</span>
+            </h2>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.1
+                    <span class="lang-zh">二泉基础信息</span>
+                    <span class="lang-en">Fundamental Information</span>
+                </h3>
+                <ul class="space-y-2">
+                    <li>
+                        <span class="font-semibold lang-zh">地理位置：</span>
+                        <span class="font-semibold lang-en">Geographic Location:</span>
+                        <span class="lang-zh">无锡惠山古镇</span>
+                        <span class="lang-en">Huishan Ancient Town, Wuxi</span>
+                    </li>
+                    <li>
+                        <span class="font-semibold lang-zh">开凿历史：</span>
+                        <span class="font-semibold lang-en">Excavation History:</span>
+                        <span class="lang-zh">唐大历末年（779年）由无锡县令敬澄开凿</span>
+                        <span class="lang-en">Dug in the late Dali reign of the Tang Dynasty (779 AD) by Jing Cheng, Magistrate of Wuxi County</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.2
+                    <span class="lang-zh">三池结构详解</span>
+                    <span class="lang-en">Detailed Explanation of the Three‑Pool Structure</span>
+                </h3>
+                <p class="mb-4">
+                    <span class="lang-zh">天下第二泉的水系由上、中、下三池构成，三池的开凿年代、形制、功能各不相同，形成一个完整的阶梯式水景体系。</span>
+                    <span class="lang-en">The water‑system of Huishan Spring consists of upper, middle and lower pools. They differ in excavation era, form and function, forming an integrated stepped waterscape system.</span>
+                </p>
+                <div class="space-y-6">
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">
+                            <span class="lang-zh">上池（泉源之池）</span>
+                            <span class="lang-en">Upper Pool (Source Pool)</span>
+                        </h4>
+                        <p>
+                            <strong class="lang-zh">形制：</strong><strong class="lang-en">Form:</strong>
+                            <span class="lang-zh">呈八角形，边长0.8米，深1.94米，围以八角形青石井栏。八角形暗合“天圆”之象，与中池的方形形成“天圆地方”的空间哲学。</span>
+                            <span class="lang-en">Octagonal, with a side length of 0.8 m and depth of 1.94 m, enclosed by an octagonal bluestone well‑railing. Its octagonal shape embodies the symbolism of “heaven being round”, creating the spatial philosophy of “heaven round, earth square” together with the square middle pool.</span>
+                        </p>
+                        <p>
+                            <strong class="lang-zh">水质特征：</strong><strong class="lang-en">Water Quality Features:</strong>
+                            <span class="lang-zh">为泉源所在，水质最佳。水色透明、甘冽可口，历史上以表面张力大、满杯隆起数毫米而不溢著称。</span>
+                            <span class="lang-en">The spring source with superior water quality. Water is transparent, sweet and refreshing. Historically it was famous for strong surface tension: water could mound several millimeters above cup‑rim without overflowing.</span>
+                        </p>
+
+                    </div>
+                    <!--上池、中池全部文字结束，插入图片2-->
+                    <div class="mb-4 h-80 rounded overflow-hidden">
+                        <img src="./1.jpeg"
+                             alt="上池与中池实拍，标注上池、中池"
+                             class="w-full h-full object-contain">
+                    </div>
+
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">
+                            <span class="lang-zh">中池（过渡之池）</span>
+                            <span class="lang-en">Middle Pool (Transition Pool)</span>
+                        </h4>
+                        <p>
+                            <strong class="lang-zh">形制：</strong><strong class="lang-en">Form:</strong>
+                            <span class="lang-zh">呈正方形，边长1.4米，深1米，围以方形石栏。方形象征“地方”，与上池八角形构成“天圆地方”格局。</span>
+                            <span class="lang-en">Square‑shaped, with side length 1.4 m and depth 1 m, surrounded by square stone railings. The square form symbolizes “earth being square”, forming the “heaven‑round‑earth‑square” pattern paired with the octagonal upper pool.</span>
+                        </p>
+                        <p>
+                            <strong class="lang-zh">水系关系：</strong><strong class="lang-en">Hydraulic Connection:</strong>
+                            <span class="lang-zh">两池相距仅0.65米，池壁上方凿有水口相通，泉水由上池流入中池。中池水体清淡，水质仅次于上池。</span>
+                            <span class="lang-en">The two pools are merely 0.65 m apart. A water spout is chiseled on upper pool‑wall for connection; spring‑water flows from upper pool into middle pool. Water in middle pool is clear, its quality second only to upper‑pool water.</span>
+                        </p>
+                    </div>
+
+                    <div class="border-l-2 border-tea pl-4">
+                        <h4 class="font-bold text-lg">
+                            <span class="lang-zh">下池（蓄水之池）</span>
+                            <span class="lang-en">Lower Pool (Water Storage Pool)</span>
+                        </h4>
+                        <p>
+                            <strong class="lang-zh">形制：</strong><strong class="lang-en">Form:</strong>
+                            <span class="lang-zh">呈长方形，长8.6米、宽5.75米，深约0.33米，为三池中规模最大者，实兼具蓄水与观鱼功能。</span>
+                            <span class="lang-en">Rectangular, 8.6 m long, 5.75 m wide and about 0.33 m deep. It is the largest among three pools, serving both water‑storage and ornamental‑fish viewing.</span>
+                        </p>
+                        <p>
+                            <strong class="lang-zh">石螭首（关键构件）：</strong><strong class="lang-en">Stone Chilong‑Head (Key Structural Component):</strong>
+                            <span class="lang-zh">下池西侧池壁嵌有明代弘治十四年（1501年）邑人杨理雕刻的石螭首（俗称石龙头）。泉水经暗渠由中池引至螭口，再从螭口吐入下池，取“水不在深，有龙则灵”之意。</span>
+                            <span class="lang-en">Embedded on the west wall of lower pool is a stone chilong‑head carved by local resident Yang Li in the 14th year of Hongzhi reign of Ming Dynasty (1501 AD). Spring‑water flows through hidden culvert from middle‑pool to the dragon‑mouth and spouts down into lower pool, echoing the famous line “Though the water be not deep, it gains spirit with a dragon dwelling within”.</span>
+                        </p>
+                        <!--下池全部文字结束，放图片3、图片4-->
+                        <div class="my-3 h-72 rounded overflow-hidden">
+                            <img src="./2.jpeg"
+                                 alt="下池与石螭首，池内锦鲤"
+                                 class="w-full h-full object-contain">
+                        </div>
+                        <div class="my-3 h-72 rounded overflow-hidden">
+                            <img src="./3.jpeg"
+                                 alt="石螭首吐水特写，池面倒影"
+                                 class="w-full h-full object-contain">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.3
+                    <span class="lang-zh">泉亭解读</span>
+                    <span class="lang-en">Interpretation of the Spring Pavilion</span>
+                </h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">水文特征：惠山泉属裂隙泉，经“千岩涤滤、松根浸润”，水质甘冽清爽。上池深1.94米，围八角石栏；中池深1米，围方形石栏，两池相距0.65米，上凿水口相通。</span>
+                        <span class="lang-en">Hydrological Characteristics: Huishan Spring is a fissure spring. Filtered through thousands of rocks and nourished by pine roots, its water tastes sweet and crisp. Upper‑pool depth 1.94 m with octagonal stone railing; middle‑pool depth 1 m with square stone railing. The two pools stand 0.65 m apart, connected by a chiselled water spout.</span>
+                    </li>
+                    <!--水文特征文字结束，放置图片5-->
+                </ul>
+                <div class="mb-4 h-72 rounded overflow-hidden">
+                    <img src="./4.jpeg"
+                         alt="上池中池间距0.65米标注图"
+                         class="w-full h-full object-contain">
+                </div>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">“天圆地方”的空间哲学：上池八角形（天）、中池方形（地），下池开凿于北宋明道年间。下池螭首吐水设计，取“水不在深，有龙则灵”之意。</span>
+                        <span class="lang-en">Spatial Philosophy of “Heaven Round, Earth Square”: Octagonal upper‑pool represents heaven; square middle‑pool represents earth. The lower pool was excavated in the Ming‑dao reign of Northern‑Song Dynasty. The design of water spouting from chilong‑head embodies the notion: “Though the water be not deep, it gains spirit with a dragon dwelling within”.</span>
+                    </li>
+                    <li>
+                        <span class="lang-zh">庭院布局：中轴线上二泉亭、漪澜堂与泉池结合自然山势布置，缀以太湖石峰。20世纪90年代泉水自然断流，现以人工注水维持。</span>
+                        <span class="lang-en">Courtyard Layout: Along the central axis, the Second‑Spring Pavilion, Yilan Hall and spring‑pools are laid out following natural mountain terrain, decorated with Taihu rock peaks. Natural spring‑flow dried up in the 1990s; nowadays artificial water‑injection maintains the scene.</span>
+                    </li>
+                </ul>
+                <!--庭院布局文字结束，放置图片6-->
+                <div class="mt-4 h-80 rounded overflow-hidden">
+                    <img src="./5.jpeg"
+                         alt="二泉庭院全景，漪澜堂、太湖石峰"
+                         class="w-full h-full object-contain">
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">2.4
+                    <span class="lang-zh">碑刻解读</span>
+                    <span class="lang-en">Interpretation of Stone Inscriptions</span>
+                </h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">赵孟頫题匾：元代赵孟頫楷书“天下第二泉”五字，原木匾明末流失，清嘉庆八年摹刻于石后重置于泉亭。碑高25厘米，长37厘米。</span>
+                        <span class="lang-en">Zhao Mengfu’s Horizontal Tablet: The regular‑script characters “The Second Best Spring under Heaven” written by Zhao Mengfu of Yuan Dynasty. The original wooden tablet was lost at the end of Ming Dynasty. In the 8th year of Jia‑qing reign of Qing Dynasty, it was copied and carved on stone and reinstalled in the spring pavilion. The stele is 25 cm in height and 37 cm in length.</span>
+                    </li>
+                </ul>
+                <!--赵孟頫题匾文字结束，放置图片7-->
+                <div class="mb-4 h-80 rounded overflow-hidden">
+                    <img src="./6.jpeg"
+                         alt="赵孟頫楷书天下第二泉碑刻，泉亭内壁"
+                         class="w-full h-full object-contain">
+                </div>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">王澍石刻：清雍正六年（1728年），王澍重书“天下第二泉”刻于五块青石，总长650厘米，现存二泉亭北侧粉墙。</span>
+                        <span class="lang-en">Wang Shu’s Stone Carving: In the 6th year of Yong‑zheng reign of Qing Dynasty (1728 AD), Wang Shu recopied the inscription “The Second Best Spring under Heaven” and carved it on five bluestone slabs with a total length of 650 cm, now preserved on the white wall north of the Second‑Spring Pavilion.</span>
+                    </li>
+                </ul>
+                <!--王澍石刻文字结束，放置图片8-->
+                <div class="mt-4 h-72 rounded overflow-hidden">
+                    <img src="./7.jpeg"
+                         alt="王澍书写天下第二泉大型石刻，北侧粉墙"
+                         class="w-full h-full object-contain">
+                </div>
+
+                <ul class="list-disc pl-5 space-y-2 mt-4">
+                    <li>
+                        <span class="lang-zh">轶闻钩沉：王澍所书扬州“天下第五泉”系从惠山“二”字改刻而来，《扬州画舫录》载其事，足见二泉题刻的影响力。</span>
+                        <span class="lang-en">Anecdote: The inscription “The Fifth Spring under Heaven” in Yangzhou, also written by Wang Shu, was revised from the character “Second” of Huishan’s inscription, as recorded in <em>Records of the Painted Pleasure‑Boats of Yangzhou</em>. This shows the profound influence of Huishan Spring inscriptions.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 历史人文典故 -->
+        <section id="history" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+                <span class="lang-zh">历史人文典故</span>
+                <span class="lang-en">Historical and Cultural Allusions</span>
+            </h2>
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">3.1
+                    <span class="lang-zh">名号由来</span>
+                    <span class="lang-en">Origin of the Name</span>
+                </h3>
+                <p>
+                    <span class="lang-zh">陆羽（733–804，茶圣）在品评天下之水味醇质时共选出前二十，称“常州无锡县惠山石泉第二”。故号称“天下第二泉”，又称“陆子泉”。</span>
+                    <span class="lang-en">Lu Yu (733‑804, known as the Saint of Tea) selected top‑twenty springs when evaluating water quality across the country, rating “Huishan Stone‑Spring, Wuxi County, Changzhou” as No. 2. Therefore it is named “The Second Best Spring under Heaven”, also known as “Luzi Spring”.</span>
+                </p>
+                <!--陆羽文字结束，放置图片10-->
+                <div class="mb-4 h-80 rounded overflow-hidden">
+                    <img src="./9.jpeg"
+                         alt="陆羽画像，唐代茶圣，《茶经》作者"
+                         class="w-full h-full object-contain">
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">3.2
+                    <span class="lang-zh">名人诗词与轶事</span>
+                    <span class="lang-en">Celebrity Poetry and Anecdotes</span>
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p>
+                            <span class="lang-zh">①唐代著名《悯农》诗人李绅（772—846年）字公垂，无锡人，唐宪宗元和年进士，少年时常来惠山读书，饮此茗泉，认为它“乃人间灵液、清鉴肌骨，漱开神虑。茶得此水，皆尽芳味也。”</span>
+                            <span class="lang-en">① Li Shen (772‑846), famous Tang‑Dynasty poet author of <em>Sympathizing with Peasants</em>, was a native of Wuxi. In his youth he often studied at Huishan and drank spring‑water. He commented: “This is spiritual liquid on earth; it cleanses bones and refreshes mind. Tea brewed with this water releases all its fine aroma.”</span>
+                        </p>
+                        <blockquote class="my-3 pl-4 border-l-4 border-amber-500 italic">
+                            <span class="lang-zh">晴沙见底空无色，青石潜流暗有声。微动竹风涵淅沥，细浮松月透轻盈。<br>
+                            桂凝秋露添灵液，茗折春芽泛玉英。应是梵居连洞府，浴池今化醴泉清。</span>
+                            <span class="lang-en">[Poem of Li Shen]<br>
+                            Clear sand reveals the bottom, water colourless and pure;<br>
+                            Beneath blue stones hidden current murmurs low.<br>
+                            Bamboo‑wind stirs light drizzle;<br>
+                            Moonlight through pines drifts soft and slim.<br>
+                            Osmanthus autumn dew enriches this spiritual liquid;<br>
+                            Spring tea buds float like jade blossoms.<br>
+                            It must connect with the fairy grotto of the Buddhist abode;<br>
+                            The old bathing pool has turned into sweet holy spring.</span>
+                        </blockquote>
+                        <p>
+                            <span class="lang-zh">北宋大文豪苏东坡于神宗熙宁七年（1074年）携小龙团来试二泉水，品茗后认为它是“乳水”、“色味两奇绝”，留下千古名句：<span class="font-semibold">独携天上小团月，来试人间第二泉</span>。</span>
+                            <span class="lang-en">Su Dong‑po, great literary giant of Northern‑Song Dynasty, carried fine dragon‑ball tea cakes to taste Huishan spring‑water in 1074 AD. He praised it as “milky‑water”, “wonderful both in colour and flavour”, leaving the immortal verse: <span class="font-semibold">“Bring alone the full‑moon‑shaped tea cake from heaven, to taste the second spring on earth.”</span></span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span class="lang-zh">②二十世纪五十年代中国江南无锡街头流浪瞎眼艺人阿炳创作演奏的二胡曲《二泉映月》。</span>
+                            <span class="lang-en">② In the 1950s, the blind folk artist Ah Bing created and performed the erhu piece <em>Moon over a Fountain</em> on the streets of Wuxi in southern China.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h3 class="text-xl font-bold mb-3">3.3
+                    <span class="lang-zh">皇家与民间印迹</span>
+                    <span class="lang-en">Royal and Folk Imprints</span>
+                </h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">北宋徽宗政和年间（1111—1118年）列为贡品</span>
+                        <span class="lang-en">Listed as imperial tribute during the Zheng‑he reign of Emperor Huizong of Northern‑Song Dynasty (1111‑1118 AD).</span>
+                    </li>
+                    <li>
+                        <span class="lang-zh">清代康熙、乾隆二帝南巡时每次必临二泉品茗。并留下许多御碑、匾额赞美惠山之湖光山色和二泉灵液</span>
+                        <span class="lang-en">Emperors Kangxi and Qianlong of Qing Dynasty would always visit Huishan Spring for tea‑tasting during their southern inspection tours, leaving many imperial steles and horizontal boards praising Huishan’s scenery and the spiritual spring‑water.</span>
+                    </li>
+                    <li>
+                        <span class="lang-zh">1997年4月8日，邮电部发行《茶》邮票一套，其中“茶会”图案系明代文征明绘画《惠山茶会图》的局部，记录清明时节，画家偕好友在无锡西郊惠山游春煮茶品茗赋诗吟诵的情景。</span>
+                        <span class="lang-en">On April 8 1997, the Ministry of Posts and Telecommunications issued a set of “Tea” stamps. The “Tea‑Gathering” motif was excerpted from Wen Zheng‑ming’s painting <em>Huishan Tea Gathering</em>, recording the scene of the painter and his friends enjoying spring outings, boiling tea and composing poems at Huishan Mountain west of Wuxi.</span>
+                    </li>
+                </ul>
+                <!--邮票文字结束，放置图片11-->
+                <div class="mb-4 h-64 rounded overflow-hidden">
+                    <img src="./10.jpeg"
+                         alt="邮电部1997年发行《茶》邮票，含惠山茶会图"
+                         class="w-full h-full object-contain">
+                </div>
+
+            </div>
+            <!-- 迁移过来的3.4，全部文字在前，图片在后，与译文文档图文顺序严格对齐 -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-xl font-bold mb-3">3.4
+                    <span class="lang-zh">“试第二泉”如何演变为文人身份认同的文化仪式？</span>
+                    <span class="lang-en">How Did “Tasting the Second Spring” Evolve into a Cultural Ritual of Literati Identity?</span>
+                </h3>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>
+                        <span class="lang-zh">经典诗句：苏轼“独携天上小团月，来试人间第二泉”（1073年）成为最著名的“广告语”，后世反复引用。</span>
+                        <span class="lang-en">Canonical Verse: Su Shi’s line “Bring alone the full‑moon‑shaped tea cake from the sky, to taste the second spring on earth” (1073 AD) serves as its most renowned literary tagline, quoted repeatedly by posterity.</span>
+                    </li>
+                    <li>
+                        <span class="lang-zh">茶会图卷：明正德十三年（1518年），文徵明与友惠山茶会，作《惠山茶会图》，成为茶文化史经典图像。图中二泉亭为茅亭构造，与现存清代建筑不同。</span>
+                        <span class="lang-en">Tea‑Gathering Scroll: In the 13th year of Zheng‑de reign of Ming Dynasty (1518 AD), Wen Zhengming held a tea‑gathering at Huishan together with his friends and painted <em>Huishan Tea Gathering</em>, an iconic artwork in tea‑culture history. The Second‑Spring Pavilion shown in the painting is a thatched hut, different from the existing Qing‑Dynasty building.</span>
+                    </li>
+
+                </ul>
+                <!--全部列表文字结束，放置图片9 惠山茶会图-->
+                <div class="mt-4 h-64 rounded overflow-hidden">
+                    <img src="./8.jpeg"
+                         alt="文徵明《惠山茶会图》古画局部，茅亭茶会"
+                         class="w-full h-full object-contain">
+                </div>
+
+                    <li>
+                        <span class="lang-zh">文化逻辑：明人冯梦龙笔下唐寅“到了这里，若不取惠山泉也就俗了”——“试泉”成为区分雅俗的文化标尺。</span>
+                        <span class="lang-en">Cultural Logic: As recorded in Feng Menglong’s writings of Ming Dynasty, Tang Yin stated: “It would be vulgar to visit this place without fetching water from Huishan Spring.” Thus “spring‑tasting” became a cultural benchmark distinguishing refinement from vulgarity.</span>
+                    </li>
+                    <li>
+                        <span class="lang-zh">泉水的流动：唐宋时期惠山泉被远运至长安、汴京，形成“泉水运输”的特殊文化实践，宋人发展出“渍小石”“拆洗”等保鲜方法。</span>
+                        <span class="lang-en">Circulation of Spring‑Water: During Tang‑Song dynasties Huishan spring‑water was transported long‑distance to Chang’an and Bianjing, giving rise to unique cultural practice of “spring‑water conveyance”. People in Song Dynasty developed preservation techniques including “soaking small stones” and “water cleansing”.</span>
+                    </li>
+            </div>
+        </section>
+
+        <!-- 泉茶文化专题 -->
+        <section id="tea" class="mb-16 anchor-offset">
+            <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+                <span class="lang-zh">泉茶文化专题</span>
+                <span class="lang-en">Special Topics on Tea Culture</span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.1
+                        <span class="lang-zh">泉茶适配原理</span>
+                        <span class="lang-en">Spring‑Tea Adaptation Principle</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">惠山泉水质清冽，矿物质含量适中，低杂质，适合冲泡各类名茶，可激发茶叶香气与滋味。</span>
+                        <span class="lang-en">Huishan spring‑water is clear and fresh, with moderate mineral content and low impurities. It suits brewing all kinds of famous teas and can fully bring out tea aroma and taste.</span>
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.2
+                        <span class="lang-zh">历代饮茶风尚</span>
+                        <span class="lang-en">Tea‑Drinking Fashion in Past Dynasties</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">唐代煎茶、宋代点茶、明清泡茶，千百年来文人雅士汇聚二泉，以泉水煮茶，形成独特的品泉文化。</span>
+                        <span class="lang-en">Tang‑Dynasty fried‑tea, Song‑Dynasty whisked‑tea, Ming‑Qing steeped‑tea. For thousands of years literati gathered by Huishan Spring to boil tea with spring‑water, forming unique spring‑tasting culture.</span>
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.3
+                        <span class="lang-zh">当代茶文化活动</span>
+                        <span class="lang-en">Contemporary Tea‑Culture Activities</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">品泉雅集、茶文化讲座、传统点茶体验，传承二泉千年茶文化。</span>
+                        <span class="lang-en">Spring‑tasting salons, tea‑culture lectures, traditional whisked‑tea experiences, inheriting thousand‑year‑old tea culture of Huishan Spring.</span>
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-3">4.4
+                        <span class="lang-zh">景区相关活动</span>
+                        <span class="lang-en">Scenic‑Spot Related Activities</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">惠山古镇四季茶文化主题活动，结合二泉历史开展研学、写生、雅集活动。</span>
+                        <span class="lang-en">Four‑season tea‑culture themed events of Huishan Ancient‑Town. Study‑tour, sketching and salon activities held combined with Huishan Spring history.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 地图放大弹窗模态框 -->
+    <div id="mapModal" class="fixed inset-0 z-[100] bg-black/85 hidden flex items-center justify-center p-4">
+        <div class="relative max-w-5xl w-full">
+            <button id="closeMapModal" class="absolute -top-10 right-0 text-white text-3xl">&times;</button>
+            <img id="modalMapImg" src="./dl.jpeg" alt="导览地图放大" class="w-full object-contain">
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-tea text-white py-8 text-center">
+        <p>
+            <span class="lang-zh">天下第二泉｜无锡惠山古镇</span>
+            <span class="lang-en">Huishan Spring — The Second Best Spring under Heaven | Huishan Ancient‑Town, Wuxi</span>
+        </p>
+        <p class="text-sm mt-2">
+            <span class="lang-zh">仅供文化科普展示页面</span>
+            <span class="lang-en">For cultural science‑popularization display only</span>
+        </p>
+    </footer>
+
+    <!-- 轮播JS脚本 + 新增语言切换JS + 地图弹窗JS -->
+    <script>
+        const wrapper = document.getElementById('carousel-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        let index = 0;
+        const total = 3;
+
+        function updateCarousel(){
+            wrapper.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot,i)=>{
+                dot.style.backgroundColor = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)';
+            })
+        }
+
+        function next(){
+            index = (index + 1) % total;
+            updateCarousel();
+        }
+        function prev(){
+            index = (index -1 + total) % total;
+            updateCarousel();
+        }
+
+        nextBtn.addEventListener('click',next);
+        prevBtn.addEventListener('click',prev);
+        dots.forEach((dot,i)=>{
+            dot.addEventListener('click',()=>{
+                index = i;
+                updateCarousel();
+            })
+        })
+        //自动轮播
+        let timer = setInterval(next,4500);
+        document.getElementById('carousel').addEventListener('mouseenter',()=>clearInterval(timer));
+        document.getElementById('carousel').addEventListener('mouseleave',()=>timer = setInterval(next,4500));
+
+        //平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // ========= 语言切换逻辑 =========
+        const html = document.documentElement;
+        const btnZh = document.getElementById('btnZh');
+        const btnEn = document.getElementById('btnEn');
+
+        function setLang(lang){
+            if(lang === 'zh'){
+                html.setAttribute('lang','zh‑CN');
+                btnZh.className = 'px-3 py-1 rounded bg-amber-200 text-tea mr-1';
+                btnEn.className = 'px-3 py-1 rounded bg-white/20';
+            }else{
+                html.setAttribute('lang','en');
+                btnEn.className = 'px-3 py-1 rounded bg-amber-200 text-tea';
+                btnZh.className = 'px-3 py-1 rounded bg-white/20 mr-1';
+            }
+        }
+        btnZh.addEventListener('click',()=>setLang('zh'));
+        btnEn.addEventListener('click',()=>setLang('en'));
+
+        // ========= 地图弹窗逻辑 =========
+        const mapModal = document.getElementById('mapModal');
+        const closeMapModal = document.getElementById('closeMapModal');
+        const mapClickTitle = document.getElementById('mapClickTitle');
+        const mapClickWrap = document.getElementById('mapClickWrap');
+
+        function openMapModal(){
+            mapModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMapModalFunc(){
+            mapModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        mapClickTitle.addEventListener('click', openMapModal);
+        mapClickWrap.addEventListener('click', openMapModal);
+        closeMapModal.addEventListener('click', closeMapModalFunc);
+        mapModal.addEventListener('click',function(e){
+            if(e.target === mapModal) closeMapModalFunc();
+        })
+    </script>
+</body>
+</html>
+
+

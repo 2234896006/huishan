@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>惠山古镇 | 官方双语旅游攻略网站 Huishan Ancient Town</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mainGreen: '#2E6B47',
+                        lightGreen: '#479968',
+                        paleGreen: '#e8f1ec',
+                        cream: '#f8f6f0',
+                        stone: '#78716c',
+                    },
+                    fontFamily: {
+                        song: ['SimSun', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .text-shadow { text-shadow:0 2px 8px rgba(0,0,0,0.6); }
+            .card-hover { transition: all 0.4s ease; }
+            .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(46,107,71,0.15); }
+            .img-hover { transition: all 0.5s ease; }
+            .img-hover:hover { transform: scale(1.06); }
+            /* 双语全局控制 */
+            .lang-en { display: none; }
+            html[lang="en"] .lang-zh { display: none; }
+            html[lang="en"] .lang-en { display: block; }
+        }
+    </style>
+</head>
+<body class="bg-cream font-song text-stone-800">
+<!-- 顶部固定导航栏 -->
+<nav class="sticky top-0 z-50 bg-mainGreen text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="text-xl md:text-2xl font-bold">
+            <span class="lang-zh">惠山古镇 · 官方旅游攻略</span>
+            <span class="lang-en">Huishan Ancient Town Travel Guide</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#intro" class="hover:text-amber-200 transition hidden sm:block">
+                <span class="lang-zh">古镇概况</span>
+                <span class="lang-en">Overview</span>
+            </a>
+            <a href="#attraction" class="hover:text-amber-200 transition hidden sm:block">
+                <span class="lang-zh">景点一览</span>
+                <span class="lang-en">Attractions</span>
+            </a>
+            <a href="#guide" class="hover:text-amber-200 transition hidden sm:block">
+                <span class="lang-zh">游玩指南</span>
+                <span class="lang-en">Travel Guide</span>
+            </a>
+            <a href="#culture" class="hover:text-amber-200 transition hidden sm:block">
+                <span class="lang-zh">特色文化</span>
+                <span class="lang-en">Culture</span>
+            </a>
+            <div class="flex items-center gap-2 ml-2">
+                <button id="zhBtn" class="px-3 py-1 rounded bg-amber-200 text-mainGreen text-sm">中文</button>
+                <button id="enBtn" class="px-3 py-1 rounded bg-white/20 text-sm">EN</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 全屏轮播Banner -->
+<section class="w-full h-[320px] md:h-[450px] overflow-hidden relative">
+    <img src="https://picsum.photos/id/1036/1920/800" alt="惠山古镇全景风光" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex flex-col items-center justify-center text-white text-center px-6">
+        <h1 class="text-[clamp(2.2rem,7vw,4rem)] font-bold text-shadow mb-3">
+            <span class="lang-zh">千年惠山 · 江南文脉</span>
+            <span class="lang-en">Millennial Huishan · Jiangnan Culture</span>
+        </h1>
+        <p class="text-[clamp(1rem,3vw,1.4rem)] text-shadow max-w-3xl">
+            <span class="lang-zh">中国最大祠堂群落、天下第二泉所在地、江南人文旅游胜地</span>
+            <span class="lang-en">China's largest ancestral hall group, home of the Second Best Spring, a famous Jiangnan cultural resort</span>
+        </p>
+        <a href="#attraction" class="mt-6 bg-amber-200 text-mainGreen font-bold px-6 py-2 rounded-full shadow-lg hover:bg-white transition">
+            <span class="lang-zh">立即游览</span>
+            <span class="lang-en">Start Tour</span>
+        </a>
+    </div>
+</section>
+
+<!-- ==========搜索栏板块========== -->
+<section class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white shadow-lg rounded-xl p-5">
+        <h2 class="text-xl font-bold text-mainGreen mb-3">
+            <span class="lang-zh">景点搜索</span>
+            <span class="lang-en">Attraction Search</span>
+        </h2>
+        <div class="relative">
+            <input id="searchInput" type="text"
+                   class="w-full border border-gray-300 rounded-lg py-3 px-4 pr-12 focus:outline-none focus:border-mainGreen">
+            <button id="searchBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-mainGreen text-white p-2 rounded-lg">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <!--搜索历史区域-->
+        <div id="historyWrap" class="mt-4 hidden">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-semibold">
+                    <span class="lang-zh">搜索历史</span>
+                    <span class="lang-en">Search History</span>
+                </span>
+                <button id="clearHistoryBtn" class="text-red-500 text-sm">
+                    <i class="fa fa-trash-o"></i>
+                    <span class="lang-zh">清空</span>
+                    <span class="lang-en">Clear</span>
+                </button>
+            </div>
+            <div id="historyList" class="flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+</section>
+
+<!-- 景区数据概览 -->
+<section class="max-w-7xl mx-auto px-4 pb-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white rounded-xl shadow p-5 card-hover">
+            <p class="text-3xl font-bold text-mainGreen">100+</p>
+            <p class="text-sm mt-2 text-stone-600">
+                <span class="lang-zh">古祠堂群落</span>
+                <span class="lang-en">Ancestral Halls</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5 card-hover">
+            <p class="text-3xl font-bold text-mainGreen">千年</p>
+            <p class="text-sm mt-2 text-stone-600">
+                <span class="lang-zh">人文历史积淀</span>
+                <span class="lang-en">Years of History</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5 card-hover">
+            <p class="text-3xl font-bold text-mainGreen">国家4A</p>
+            <p class="text-sm mt-2 text-stone-600">
+                <span class="lang-zh">A级旅游景区</span>
+                <span class="lang-en">4A Scenic Area</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-5 card-hover">
+            <p class="text-3xl font-bold text-mainGreen">二泉胜境</p>
+            <p class="text-sm mt-2 text-stone-600">
+                <span class="lang-zh">天下第二泉地标</span>
+                <span class="lang-en">Famous Spring Spot</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 古镇概况板块 -->
+<section id="intro" class="max-w-7xl mx-auto px-4 py-8 anchor-offset">
+    <h2 class="text-2xl md:text-3xl font-bold text-mainGreen border-l-4 border-mainGreen pl-4 mb-8">
+        <span class="lang-zh">古镇概况</span>
+        <span class="lang-en">Scenic Overview</span>
+    </h2>
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="rounded-xl overflow-hidden shadow-lg">
+            <img src="https://picsum.photos/id/1039/900/600" alt="惠山古镇风光" class="w-full h-full object-cover img-hover">
+        </div>
+        <div class="space-y-4">
+            <p class="leading-relaxed text-base">
+                <span class="lang-zh">惠山古镇坐落于无锡城西惠山山麓，是江南地区保存最完整、规模最大的祠堂古建筑群落，集山水风光、古建祠堂、千年泉文化、文人诗词于一体。景区无需大门票，自然清幽、古色古香，是江南小众人文旅游、研学采风、休闲漫步的绝佳目的地。</span>
+                <span class="lang-en">Located at the foot of Huishan Mountain in western Wuxi, Huishan Ancient Town boasts the most complete and largest group of ancient ancestral halls in Jiangnan. It integrates landscape scenery, ancient architecture, millennial spring culture and literati poetry. Free of entrance ticket, it is an excellent destination for cultural tourism, study tours and leisure walks.</span>
+            </p>
+            <p class="leading-relaxed text-base">
+                <span class="lang-zh">景区核心地标天下第二泉，为唐代茶圣陆羽评定的天下名泉，因阿炳名曲《二泉映月》享誉海内外，是惠山古镇最具代表性的文化名片。</span>
+                <span class="lang-en">The core landmark, Huishan Spring (The Second Best Spring under Heaven), was rated by Lu Yu, the tea saint of the Tang Dynasty. Famous for Ah Bing's classic erhu music, it is the most iconic cultural symbol of Huishan Ancient Town.</span>
+            </p>
+            <a href="./secondspring.html" class="inline-block bg-mainGreen text-white px-5 py-2 rounded-lg mt-2 hover:bg-lightGreen transition">
+                <span class="lang-zh">查看核心景点详情</span>
+                <span class="lang-en">View Core Attraction Details</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 游玩指南板块 -->
+<section id="guide" class="max-w-7xl mx-auto px-4 py-12 bg-paleGreen rounded-2xl mx-2 md:mx-4">
+    <h2 class="text-2xl md:text-3xl font-bold text-mainGreen border-l-4 border-mainGreen pl-4 mb-8">
+        <span class="lang-zh">游玩实用指南</span>
+        <span class="lang-en">Practical Travel Guide</span>
+    </h2>
+    <div class="grid md:grid-cols-3 gap-6">
+        <!-- 开放时间 -->
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <i class="fa fa-clock-o text-3xl text-mainGreen mb-4"></i>
+            <h3 class="text-lg font-bold mb-2">
+                <span class="lang-zh">开放时间</span>
+                <span class="lang-en">Opening Hours</span>
+            </h3>
+            <p class="text-sm text-stone-600">
+                <span class="lang-zh">08:00 - 17:30（全年开放，节假日正常营业）</span>
+                <span class="lang-en">08:00 - 17:30 (Open all year round)</span>
+            </p>
+        </div>
+        <!-- 门票政策 -->
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <i class="fa fa-ticket text-3xl text-mainGreen mb-4"></i>
+            <h3 class="text-lg font-bold mb-2">
+                <span class="lang-zh">门票政策</span>
+                <span class="lang-en">Ticket Policy</span>
+            </h3>
+            <p class="text-sm text-stone-600">
+                <span class="lang-zh">古镇公共区域免费，祠堂小景点联票游览，学生、老人享有优惠政策</span>
+                <span class="lang-en">Free access to public areas. Combined tickets for ancestral halls, discounts for students and seniors.</span>
+            </p>
+        </div>
+        <!-- 交通方式 -->
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <i class="fa fa-map-marker text-3xl text-mainGreen mb-4"></i>
+            <h3 class="text-lg font-bold mb-2">
+                <span class="lang-zh">交通指南</span>
+                <span class="lang-en">Transportation</span>
+            </h3>
+            <p class="text-sm text-stone-600">
+                <span class="lang-zh">地铁4号线惠山古镇站直达，多路公交可达，市区自驾便捷</span>
+                <span class="lang-en">Direct subway access, multiple bus routes and convenient self‑driving.</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 特色文化板块 -->
+<section id="culture" class="max-w-7xl mx-auto px-4 py-12">
+    <h2 class="text-2xl md:text-3xl font-bold text-mainGreen border-l-4 border-mainGreen pl-4 mb-8">
+        <span class="lang-zh">古镇特色文化</span>
+        <span class="lang-en">Local Featured Culture</span>
+    </h2>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <h3 class="text-lg font-bold text-mainGreen mb-3">
+                <span class="lang-zh">泉茶文化</span>
+                <span class="lang-en">Spring & Tea Culture</span>
+            </h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+                <span class="lang-zh">惠山泉为千古名泉，自唐代以来无数文人雅士在此品泉煮茶，形成独属于惠山的泉茶礼仪与雅集文化，苏轼、李绅等名家均留下传世诗篇。</span>
+                <span class="lang-en">Huishan Spring is a famous ancient spring. Since the Tang Dynasty, countless literati have tasted spring water and brewed tea here, forming unique spring tea culture with numerous classic poems left by famous scholars.</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <h3 class="text-lg font-bold text-mainGreen mb-3">
+                <span class="lang-zh">祠堂宗族文化</span>
+                <span class="lang-en">Ancestral Hall Culture</span>
+            </h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+                <span class="lang-zh">惠山古镇被誉为“江南祠堂博物馆”，百余座古祠堂跨越唐宋明清，记录江南宗族礼制、家风传承与古建筑营造技艺。</span>
+                <span class="lang-en">Known as the "Jiangnan Ancestral Hall Museum", Huishan Ancient Town has hundreds of ancient halls spanning multiple dynasties, recording traditional rituals, family inheritance and ancient construction techniques.</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <h3 class="text-lg font-bold text-mainGreen mb-3">
+                <span class="lang-zh">非遗民俗文化</span>
+                <span class="lang-en">Intangible Cultural Heritage</span>
+            </h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+                <span class="lang-zh">景区常年开展茶道体验、书画雅集、传统民乐、古镇写生等文化活动，传承江南传统非遗民俗，氛围感浓厚。</span>
+                <span class="lang-en">The scenic area regularly holds tea ceremonies, calligraphy salons, traditional music and sketching activities, inheriting traditional Jiangnan folk culture.</span>
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow p-6 card-hover">
+            <h3 class="text-lg font-bold text-mainGreen mb-3">
+                <span class="lang-zh">诗词人文底蕴</span>
+                <span class="lang-en">Poetry & Humanity Heritage</span>
+            </h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+                <span class="lang-zh">千年来文人墨客云集惠山，留下海量诗词碑刻，山水与人文相融，造就独树一帜的江南诗意古镇风貌。</span>
+                <span class="lang-en">For thousands of years, numerous scholars gathered in Huishan and left a large number of poems and inscriptions, forming a unique poetic ancient town style.</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- 全部景点一览 -->
+<section id="attraction" class="max-w-7xl mx-auto px-4 pb-16">
+    <h2 class="text-2xl md:text-3xl font-bold text-mainGreen border-l-4 border-mainGreen pl-4 mb-8">
+        <span class="lang-zh">全部景点一览</span>
+        <span class="lang-en">All Scenic Attractions</span>
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 天下第二泉（可跳转详情页） -->
+        <a href="./secondspring.html" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1039/800/500" alt="天下第二泉" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">天下第二泉</span>
+                    <span class="lang-en">The Second Best Spring under Heaven</span>
+                </h3>
+                <p class="text-sm text-stone-600 mt-2">
+                    <span class="lang-zh">千年名泉，二泉映月发源地，全国重点文保单位</span>
+                    <span class="lang-en">Millennial famous spring, origin of Moon over a Fountain</span>
+                </p>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1041/800/500" alt="先贤施子祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">先贤施子祠</span>
+                    <span class="lang-en">Shizi Ancestral Hall</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1042/800/500" alt="吕东莱先生祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">吕东莱先生祠</span>
+                    <span class="lang-en">Lv Donglai Memorial Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1043/800/500" alt="杨四褒祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">杨四褒祠</span>
+                    <span class="lang-en">Yang Sibao Ancestral Hall</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1044/800/500" alt="绣嶂阁" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">绣嶂阁</span>
+                    <span class="lang-en">Xiuzhang Pavilion</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1045/800/500" alt="钱武肃王祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">钱武肃王祠</span>
+                    <span class="lang-en">King Qian Wusu Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1046/800/500" alt="陆宣公祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">陆宣公祠</span>
+                    <span class="lang-en">Lu Xuangong Ancestral Hall</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1047/800/500" alt="东岳行庙" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">东岳行庙</span>
+                    <span class="lang-en">Dongyue Temporary Temple</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1048/800/500" alt="二戴夫子祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">二戴夫子祠</span>
+                    <span class="lang-en">Two‑Dai Masters Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1049/800/500" alt="倪云林先生祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">倪云林先生祠</span>
+                    <span class="lang-en">Ni Yunlin Memorial Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1050/800/500" alt="崇祯列祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">崇祯列祠</span>
+                    <span class="lang-en">Chongzhen Group Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1051/800/500" alt="惠山书院" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">惠山书院</span>
+                    <span class="lang-en">Huishan Academy</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1052/800/500" alt="范文正公祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">范文正公祠</span>
+                    <span class="lang-en">Fan Wenzheng Ancestral Hall</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1053/800/500" alt="费懿恭先生祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">费懿恭先生祠</span>
+                    <span class="lang-en">Fei Yigong Memorial Shrine</span>
+                </h3>
+            </div>
+        </a>
+
+        <a href="#" class="bg-white rounded-xl shadow overflow-hidden card-hover">
+            <div class="h-52 overflow-hidden">
+                <img src="https://picsum.photos/id/1054/800/500" alt="马文肃公祠" class="w-full h-full object-cover img-hover">
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg font-bold text-mainGreen">
+                    <span class="lang-zh">马文肃公祠</span>
+                    <span class="lang-en">Ma Wensu Ancestral Hall</span>
+                </h3>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- 底部信息栏 -->
+<footer class="bg-mainGreen text-white py-10">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-lg font-bold mb-3">
+                    <span class="lang-zh">关于我们</span>
+                    <span class="lang-en">About Us</span>
+                </h4>
+                <p class="text-sm text-white/80 leading-relaxed">
+                    <span class="lang-zh">本网站为惠山古镇双语旅游科普攻略网站，全方位展示古镇风光、历史文化、游玩攻略与全部景点，适配手机与电脑浏览。</span>
+                    <span class="lang-en">This is a bilingual travel guide website for Huishan Ancient Town, introducing scenery, history, culture and travel tips.</span>
+                </p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-3">
+                    <span class="lang-zh">快速导航</span>
+                    <span class="lang-en">Quick Navigation</span>
+                </h4>
+                <div class="space-y-2 text-sm text-white/80">
+                    <a href="#intro" class="block hover:text-amber-200"><span class="lang-zh">古镇概况</span><span class="lang-en">Overview</span></a>
+                    <a href="#guide" class="block hover:text-amber-200"><span class="lang-zh">游玩指南</span><span class="lang-en">Travel Guide</span></a>
+                    <a href="#culture" class="block hover:text-amber-200"><span class="lang-zh">特色文化</span><span class="lang-en">Culture</span></a>
+                    <a href="#attraction" class="block hover:text-amber-200"><span class="lang-zh">全部景点</span><span class="lang-en">Attractions</span></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-3">
+                    <span class="lang-zh">温馨提示</span>
+                    <span class="lang-en">Tips</span>
+                </h4>
+                <p class="text-sm text-white/80 leading-relaxed">
+                    <span class="lang-zh">文明出游，爱护古建山水。四季皆可游玩，春秋季节风光最佳。</span>
+                    <span class="lang-en">Travel politely and protect ancient relics. Spring and autumn are the best visiting seasons.</span>
+                </p>
+            </div>
+        </div>
+        <div class="border-t border-white/20 mt-8 pt-6 text-center text-sm text-white/70">
+            <p>© 2025 惠山古镇双语旅游网站 | Huishan Ancient Town Bilingual Travel Website</p>
+            <p class="mt-1"><span class="lang-zh">仅供学习展示使用</span><span class="lang-en">For study and display only</span></p>
+        </div>
+    </div>
+</footer>
+
+<!-- JS脚本：双语切换 + 搜索历史 + 景点搜索跳转 + 平滑滚动 -->
+<script>
+const html = document.documentElement;
+const zhBtn = document.getElementById('zhBtn');
+const enBtn = document.getElementById('enBtn');
+
+// ==========景点映射表【新增】==========
+// 以后新增景点页面，在这里追加对象即可
+const attractionMap = [
+    { name: "天下第二泉", page: "./secondspring.html" },
+    { name: "先贤施子祠", page: "./shizi.html" },
+    { name: "吕东莱先生祠", page: "./lvdonglai.html" },
+    { name: "杨四褒祠", page: "./yangsibao.html" },
+    { name: "绣嶂阁", page: "./xiuzhangge.html" },
+    { name: "钱武肃王祠", page: "./qianwusu.html" },
+    { name: "陆宣公祠", page: "./luxuangong.html" },
+    { name: "东岳行庙", page: "./dongyue.html" },
+    { name: "二戴夫子祠", page: "./erdai.html" },
+    { name: "倪云林先生祠", page: "./niyunlin.html" },
+    { name: "崇祯列祠", page: "./chongzhen.html" },
+    { name: "惠山书院", page: "./huishanshuyuan.html" },
+    { name: "范文正公祠", page: "./fanwenzheng.html" },
+    { name: "费懿恭先生祠", page: "./feiyigong.html" },
+    { name: "马文肃公祠", page: "./mawensu.html" }
+];
+
+// 双语切换
+function setLang(lang){
+    if(lang === "zh"){
+        html.setAttribute("lang","zh-CN");
+        zhBtn.className = "px-3 py-1 rounded bg-amber-200 text-mainGreen text-sm";
+        enBtn.className = "px-3 py-1 rounded bg-white/20 text-sm";
+        document.querySelector("#searchInput").placeholder = "输入景点名称，如天下第二泉";
+    }else{
+        html.setAttribute("lang","en");
+        enBtn.className = "px-3 py-1 rounded bg-amber-200 text-mainGreen text-sm";
+        zhBtn.className = "px-3 py-1 rounded bg-white/20 text-sm";
+        document.querySelector("#searchInput").placeholder = "Search attraction name";
+    }
+}
+zhBtn.addEventListener("click",()=>setLang('zh'));
+enBtn.addEventListener("click",()=>setLang('en'));
+
+// 搜索历史 localStorage
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const historyWrap = document.getElementById("historyWrap");
+const historyList = document.getElementById("historyList");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+function getHistory(){
+    let arr = localStorage.getItem("huishanSearchHistory");
+    return arr ? JSON.parse(arr) : [];
+}
+function saveHistory(list){
+    localStorage.setItem("huishanSearchHistory", JSON.stringify(list));
+}
+function renderHistory(){
+    let list = getHistory();
+    historyList.innerHTML = "";
+    if(list.length === 0){
+        historyWrap.classList.add("hidden");
+        return;
+    }
+    historyWrap.classList.remove("hidden");
+    list.forEach(item=>{
+        let span = document.createElement("span");
+        span.className = "bg-gray-100 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-lightGreen hover:text-white";
+        span.innerText = item;
+        span.onclick = ()=> searchInput.value = item;
+        historyList.appendChild(span);
+    })
+}
+
+//执行搜索【修改：增加匹配跳转逻辑】
+function doSearch(){
+    let keyword = searchInput.value.trim();
+    if(!keyword) return;
+
+    //保存搜索历史
+    let his = getHistory();
+    his = his.filter(x=>x!==keyword);
+    his.unshift(keyword);
+    if(his.length>8) his.pop();
+    saveHistory(his);
+    renderHistory();
+
+    //模糊匹配景点
+    const matchItem = attractionMap.find(item=>{
+        return item.name.includes(keyword);
+    });
+
+    if(matchItem){
+        //匹配成功，跳转页面
+        window.location.href = matchItem.page;
+    }else{
+        //没有匹配到
+        alert(`未找到景点「${keyword}」，请输入准确景点名称`);
+    }
+}
+searchBtn.addEventListener("click", doSearch);
+searchInput.addEventListener("keydown",e=>{
+    if(e.key === "Enter") doSearch();
+})
+//清空历史
+clearHistoryBtn.addEventListener("click",()=>{
+    localStorage.removeItem("huishanSearchHistory");
+    renderHistory();
+})
+renderHistory();
+
+// 平滑滚动锚点
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+})
+</script>
+</body>
+</html>
+
