@@ -1,0 +1,836 @@
+rc<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>愚公谷 | Yugong Valley 无锡惠山古镇</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        tea: '#4A5D45',
+        teaDark: '#364733',
+        stone: '#78716c',
+        cream: '#f3efe6',
+        rice: '#faf7ef',
+        sealDark: '#8a6a3f'
+      },
+      fontFamily: {
+        song: ['"Noto Serif SC"', 'SimSun', 'serif'],
+        kai: ['"ZCOOL XiaoWei"', 'KaiTi', 'serif'],
+        flower: ['"Ma Shan Zheng"', '"ZCOOL XiaoWei"', 'cursive']
+      }
+    }
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
+  .text-shadow-soft {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
+  .anchor-offset {
+    scroll-margin-top: 64px;
+  }
+  .carousel-item {
+    transition: transform 0.6s ease-in-out;
+  }
+  .route-arrow {
+    color: #4A5D45;
+    font-size: 28px;
+    font-weight: 700;
+    opacity: 0.85;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+  }
+  @media (max-width: 768px) {
+    .route-arrow {
+      font-size: 20px;
+    }
+  }
+  /* ========== 双语显示控制 ========== */
+  .lang-en { display: none; }
+  html[lang="en"] .lang-zh { display: none; }
+  html[lang="en"] .lang-en { display: block; }
+}
+</style>
+<style>
+  body {
+    background: linear-gradient(180deg, #faf7ef 0%, #f3efe6 100%);
+  }
+
+  /* 首屏封面 */
+  .ygg-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.45), transparent 55%),
+      radial-gradient(ellipse at 80% 30%, rgba(255, 240, 210, 0.35), transparent 50%),
+      linear-gradient(160deg, #d9d2bf 0%, #b9ae91 40%, #8f856d 100%);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.6s ease;
+  }
+
+  .ygg-hero:hover {
+    transform: scale(1.004);
+  }
+
+  /* 首屏右上角语言切换按钮容器 */
+  .hero-lang-switch{
+    position:absolute;
+    top:20px;
+    right:20px;
+    z-index:20;
+  }
+  .hero-lang-switch button{
+    backdrop-filter: blur(6px);
+  }
+
+  /* 远山淡墨层 */
+  .ygg-hero .ink-mountain {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18%;
+    height: 280px;
+    background: linear-gradient(180deg, rgba(54, 71, 51, 0) 0%, rgba(54, 71, 51, 0.35) 100%);
+    filter: blur(0.4px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* 竹影 */
+  .ygg-hero .bamboo {
+    position: absolute;
+    left: -40px;
+    top: 8%;
+    width: 220px;
+    height: 80%;
+    background-image:
+      linear-gradient(180deg, rgba(74, 93, 69, 0.35), rgba(74, 93, 69, 0) 70%),
+      repeating-linear-gradient(90deg, rgba(74, 93, 69, 0.25) 0 2px, transparent 2px 14px);
+    border-radius: 120px 20px 20px 120px / 30% 10% 10% 30%;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .ygg-hero .bamboo.right {
+    left: auto;
+    right: -60px;
+    top: 12%;
+    width: 260px;
+    opacity: 0.35;
+  }
+
+  /* 涧水 */
+  .ygg-hero .stream {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 22%;
+    background: linear-gradient(180deg, rgba(90, 110, 100, 0.25), rgba(54, 71, 51, 0.55));
+    pointer-events: none;
+  }
+
+  .ygg-hero .stream::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: streamLine 4s linear infinite;
+  }
+
+  @keyframes streamLine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* 古建剪影 */
+  .ygg-hero .pavilion {
+    position: absolute;
+    left: 50%;
+    bottom: 24%;
+    transform: translateX(-50%);
+    width: 420px;
+    height: 180px;
+    background: linear-gradient(180deg, rgba(54, 47, 36, 0) 0%, rgba(54, 47, 36, 0.45) 100%);
+    clip-path: polygon(
+      20% 100%, 20% 55%, 0% 45%, 50% 15%, 100% 45%, 80% 55%, 80% 100%
+    );
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* 花字主标题 */
+  .ygg-title {
+    font-family: "Ma Shan Zheng", "ZCOOL XiaoWei", cursive;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    color: #fff;
+    text-shadow:
+      0 6px 30px rgba(0, 0, 0, 0.55),
+      0 2px 10px rgba(0, 0, 0, 0.45);
+    filter: drop-shadow(0 0 18px rgba(255, 245, 210, 0.35));
+  }
+  .ygg-title-en{
+    font-family:"Noto Serif SC",serif;
+    letter-spacing:0.15em;
+  }
+
+  /* 花字诗句 */
+  .ygg-poem {
+    font-family: "Ma Shan Zheng", "ZCOOL XiaoWei", cursive;
+    color: #fff8e7;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.2em;
+  }
+  .ygg-poem-en{
+    font-family:"Noto Serif SC",serif;
+    letter-spacing:0.1em;
+  }
+
+  /* 暗金篆刻小印 */
+  .seal-dark {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 2px solid rgba(218, 190, 120, 0.85);
+    color: #fff3d1;
+    font-family: "Noto Serif SC", SimHei, serif;
+    font-weight: 700;
+    background: rgba(54, 47, 36, 0.35);
+    transform: rotate(-5deg);
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  /* 点击提示 */
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 4%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    animation: floatHint 2.6s ease-in-out infinite;
+  }
+
+  @keyframes floatHint {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.7; }
+    50% { transform: translate(-50%, -8px); opacity: 1; }
+  }
+</style>
+</head>
+<body class="text-stone-800 font-song">
+
+<!-- ========== 首屏封面【语言切换按钮放在首屏右上角】 ========== -->
+<section class="ygg-hero" id="hero" onclick="document.getElementById('main-content').scrollIntoView({behavior:'smooth'})">
+  <!-- 首屏右上角语言切换，阻止冒泡，点击不会触发跳转 -->
+  <div class="hero-lang-switch">
+    <button id="btnZh" onclick="setLang('zh');event.stopPropagation();" class="px-3 py-1 rounded bg-amber-200/90 text-tea mr-1">中文</button>
+    <button id="btnEn" onclick="setLang('en');event.stopPropagation();" class="px-3 py-1 rounded bg-white/20 text-white">English</button>
+  </div>
+
+  <div class="bamboo"></div>
+  <div class="bamboo right"></div>
+  <div class="ink-mountain"></div>
+  <div class="pavilion"></div>
+  <div class="stream"></div>
+
+  <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+    <p class="ygg-poem text-lg md:text-2xl mb-6">
+      <span class="lang-zh">名溪为愚溪，丘为愚丘</span>
+      <span class="lang-en ygg-poem-en">Name stream Yu‑Stream, mound Yu‑Mound</span>
+    </p>
+
+    <h1 class="ygg-title text-6xl md:text-8xl mb-8">
+      <span class="lang-zh">愚公谷</span>
+      <span class="lang-en ygg-title-en text-5xl md:text-7xl">Yugong Valley</span>
+    </h1>
+
+    <p class="ygg-poem text-xl md:text-3xl mb-10 max-w-2xl">
+      <span class="lang-zh">宁为愚谷客，静伴涧泉吟</span>
+      <span class="lang-en ygg-poem-en text-xl md:text-2xl">Be a dweller of the Foolish Valley, chant beside mountain streams</span>
+    </p>
+
+    <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 mb-12">
+      <span class="seal-dark text-base md:text-lg">愚谷</span>
+      <span class="text-white/80 text-sm md:text-base tracking-widest">
+        <span class="lang-zh">无锡惠山古镇 · 明代园林文脉</span>
+        <span class="lang-en">Huishan Ancient‑Town Wuxi · Ming‑Dynasty Garden Heritage</span>
+      </span>
+    </div>
+
+    <p class="text-white/80 text-sm md:text-base max-w-xl leading-relaxed text-shadow-soft">
+      <span class="lang-zh">邹迪光罢官后寄情山水，以“愚”名园，借春申涧之天然，成文人隐居之胜。</span>
+      <span class="lang-en">After dismissal from office, Zou Diguang devoted himself to landscape, naming his garden with “Yu”, borrowing natural scenery from Chunshen Stream to create a literati retreat.</span>
+    </p>
+  </div>
+
+  <div class="scroll-hint">
+    <i class="fa fa-mouse-pointer mr-2"></i>
+    <span class="lang-zh">点击进入主页</span>
+    <span class="lang-en">Click to enter</span>
+  </div>
+</section>
+
+<!-- ========= 导航栏【移除导航栏上的语言切换按钮】 ========= -->
+<nav class="sticky top-0 bg-tea text-white shadow-md z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-2 items-center justify-center">
+    <a href="#intro" class="hover:text-amber-200 transition">
+      <span class="lang-zh">入园须知</span>
+      <span class="lang-en">Before Visit</span>
+    </a>
+    <a href="#map-notice-block" class="hover:text-amber-200 transition">
+      <span class="lang-zh">导览地图·公告栏</span>
+      <span class="lang-en">Map & Notice</span>
+    </a>
+    <a href="#owner" class="hover:text-amber-200 transition">
+      <span class="lang-zh">园主邹迪光</span>
+      <span class="lang-en">Zou Diguang</span>
+    </a>
+    <a href="#spring" class="hover:text-amber-200 transition">
+      <span class="lang-zh">春申涧与借景山水</span>
+      <span class="lang-en">Chunshen Stream Borrowed Scenery</span>
+    </a>
+    <a href="#poem" class="hover:text-amber-200 transition">
+      <span class="lang-zh">诗文与名士往事</span>
+      <span class="lang-en">Poems & Anecdotes</span>
+    </a>
+    <a href="#tour" class="hover:text-amber-200 transition">
+      <span class="lang-zh">游览导览</span>
+      <span class="lang-en">Tour Guide</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ========= 主页正文 ========= -->
+<main id="main-content" class="max-w-7xl mx-auto px-4 py-10">
+
+  <!-- 顶部轮播 -->
+  <div class="relative w-full h-[420px] overflow-hidden rounded-lg shadow-lg mb-10" id="carousel">
+    <div class="flex h-full" id="carousel-wrapper">
+      <div class="carousel-item w-full h-full flex-shrink-0">
+        <img src="./ygg1.jpg" alt="愚公谷大门实景" class="w-full h-full object-cover" />
+      </div>
+      <div class="carousel-item w-full h-full flex-shrink-0">
+        <img src="./ygg2.jpg" alt="春申涧牌坊" class="w-full h-full object-cover" />
+      </div>
+      <div class="carousel-item w-full h-full flex-shrink-0">
+        <img src="./ygg3.jpeg" alt="愚公谷庭院景致" class="w-full h-full object-cover" />
+      </div>
+    </div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <h1 class="text-[clamp(2rem,5vw,4rem)] text-white font-bold text-shadow-soft text-center">
+        <span class="lang-zh">愚公谷</span>
+        <span class="lang-en">Yugong Valley</span>
+      </h1>
+    </div>
+    <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+      <i class="fa fa-angle-left text-xl"></i>
+    </button>
+    <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center">
+      <i class="fa fa-angle-right text-xl"></i>
+    </button>
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2" id="carousel-dots">
+      <span class="dot w-3 h-3 rounded-full bg-white/80 cursor-pointer"></span>
+      <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+      <span class="dot w-3 h-3 rounded-full bg-white/40 cursor-pointer"></span>
+    </div>
+  </div>
+
+  <!-- 入园须知 -->
+  <section id="intro" class="mb-16 anchor-offset">
+    <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+      <span class="lang-zh">入园前须知</span>
+      <span class="lang-en">Three Things to Know Before Entering the Garden</span>
+    </h2>
+
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 mb-8 border border-white">
+      <h3 class="text-xl font-bold mb-3">
+        <span class="lang-zh">为什么叫“愚公谷”？</span>
+        <span class="lang-en">Why the Name “Yugong Valley”?</span>
+      </h3>
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">“愚公谷”之名，直接取自柳宗元 “名溪为愚溪，丘为愚丘” 之意。柳宗元被贬永州后，把居所附近的溪、丘、泉、池一一冠以“愚”字，表面自嘲，内里是对“聪明人”世界的疏离。邹迪光取此典，是在为自己罢官后的选择作注脚：官场上的“智”他不要了，山水间的“愚”他认了。</span>
+        <span class="lang-en">The name Yugong Valley draws directly from Liu Zongyuan’s practice of naming a stream Yu Stream and a mound Yu Mound. After being demoted to Yongzhou, Liu Zongyuan prefixed the character Yu (foolish) to the streams, mounds, springs and ponds near his dwelling. Ostensibly an act of self‑deprecation, it expressed his detachment from a world obsessed with worldly shrewdness. Zou Diguang adopted this allusion to frame his own choice after dismissal from official office: he rejected the worldly “wisdom” of officialdom and embraced the “foolishness” found amid mountains and waters.</span>
+      </p>
+      <p class="leading-relaxed">
+        <span class="lang-zh">他索性自号 “愚谷” ，又因园在谷中，堂、亭皆以“愚”名，最终合而名园为“愚公谷”。当时人也有“山慧谷愚”的戏谑，但邹迪光坦然受之。</span>
+        <span class="lang-en">He styled himself Yugu. Since the garden nestled in a valley and its halls and pavilions all bore the character Yu, the garden was collectively named Yugong Valley. Contemporaries playfully remarked, “The hill is wise, the valley foolish”, yet Zou Diguang accepted the epithet calmly.</span>
+      </p>
+    </div>
+
+    <!-- 地图+公告栏整块 -->
+    <div id="map-notice-block" class="grid md:grid-cols-2 gap-8 anchor-offset">
+      <div class="bg-white/80 backdrop-blur p-6 rounded-lg shadow border border-white">
+        <h3 class="text-xl font-bold mb-3 text-tea"><i class="fa fa-map-o mr-2"></i>
+          <span class="lang-zh">导览地图（点击放大查看）</span>
+          <span class="lang-en">Tour Map (Click to enlarge)</span>
+        </h3>
+        <div id="mapClickWrap" class="h-64 bg-stone-100 rounded overflow-hidden cursor-pointer">
+          <img src="./dl.jpeg" alt="惠山古镇手绘导览地图，标记愚公谷位置" class="w-full h-full object-contain" />
+        </div>
+        <p class="mt-3 text-sm text-stone-600">
+          <span class="lang-zh">地址：无锡惠山东麓，惠山古镇景区内，春申涧第一曲旁</span>
+          <span class="lang-en">Address: Beside first bend of Chunshen Stream, Huishan Ancient‑Town scenic area, Wuxi</span>
+        </p>
+      </div>
+      <div class="bg-white/80 backdrop-blur p-6 rounded-lg shadow border border-white">
+        <h3 class="text-xl font-bold mb-3 text-tea"><i class="fa fa-bullhorn mr-2"></i>
+          <span class="lang-zh">公告栏</span>
+          <span class="lang-en">Notice Board</span>
+        </h3>
+        <div class="space-y-4">
+          <div>
+            <h4 class="font-semibold">
+              <span class="lang-zh">开放时间</span>
+              <span class="lang-en">Opening Hours</span>
+            </h4>
+            <p>
+              <span class="lang-zh">08:00 — 17:30（以景区现场公告为准）</span>
+              <span class="lang-en">08:00‑17:30 (subject to on‑site notices of the scenic area)</span>
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold">
+              <span class="lang-zh">门票政策</span>
+              <span class="lang-en">Ticketing Regulations</span>
+            </h4>
+            <p>
+              <span class="lang-zh">包含于惠山古镇景区套票内，无单独小门票，优待政策参照景区官方公告。</span>
+              <span class="lang-en">Access included in Huishan Ancient‑Town combined ticket, no separate ticket. Preferential policies refer to official scenic‑area announcements.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 园主邹迪光 -->
+  <section id="owner" class="mb-16 anchor-offset">
+    <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+      <span class="lang-zh">园主邹迪光</span>
+      <span class="lang-en">The Garden Owner Zou Diguang</span>
+    </h2>
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 border border-white">
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">邹迪光，字彦吉，号愚谷，万历二年进士，官至湖广提学副使，罢官之后回到无锡。他和寄畅园主人秦耀相似，都是官场失意之后寄情山水、修筑园林的明代士大夫代表人物。</span>
+        <span class="lang-en">Zou Diguang, courtesy name Yanji, art name Yugu, obtained his jinshi degree in the second year of the Wanli reign and served as Vice Commissioner of Education in Huguang. After leaving office, he returned to Wuxi. Like Qin Yao, owner of Jichang Garden, he was a typical scholar‑official who turned to landscape and garden‑building after setbacks in official life.</span>
+      </p>
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">他不只是园林主人，同时也是高产诗人与园林记录者。撰写的《愚公谷乘》，是文笔优美的造园专著；还创作《愚公谷五言律诗六十首》，园中六十处景点，一景对应一首诗。从第一景“春申涧第一曲”到第六十景“石语斋”，六十景各有名目，各配诗作。这种一景一诗完整配套的模式，在明代私家园林中十分少见。</span>
+        <span class="lang-en">What sets him apart is that he was not merely a garden owner, but also a prolific poet and meticulous chronicler of garden design. His Record of Yugong Valley is regarded in garden studies as an elegantly written treatise on garden‑making. He also composed sixty five‑character regulated verses for Yugong Valley, with one poem dedicated to each scenic spot. From the first view “The First Bend of Chunshen Stream” to the sixtieth “Stone Whisper Studio”, every spot had its own title and matching poem. Such a complete scheme of one scene, one poem was rare among private gardens of the Ming Dynasty.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 春申涧与借景山水 -->
+  <section id="spring" class="mb-16 anchor-offset">
+    <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+      <span class="lang-zh">春申涧与借景山水</span>
+      <span class="lang-en">Yugong Valley and Chunshen Stream: Borrowed Landscape</span>
+    </h2>
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 mb-6 border border-white">
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">愚公谷坐落于春申涧第一曲的侧边，旧址大致处在春申涧、天下第二泉、旧惠山寺与绣嶂街之间，占地约五十亩。春申涧又叫黄公涧，相传战国春申君黄歇曾到此饮马。涧水自惠山山麓奔涌而下，遇上山雨，水位瞬间涨至四五尺，声势壮阔。</span>
+        <span class="lang-en">Yugong Valley sits beside the first bend of Chunshen Stream. Its original site roughly lay between Chunshen Stream, the Second Spring under Heaven, the former Huishan Temple and Xiuzhang Street, covering about fifty mu. Chunshen Stream, also known as Huanggong Stream, is said to be where Lord Chunshen Huang Xie watered his horses in the Warring States Period. Its water rushes down from the foothills of Huishan Hill; after heavy rain, the water can rise several chi within moments, creating a spectacular sight.</span>
+      </p>
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">邹迪光造园，没有把涧水隔绝在园墙之外，而是将春申涧的山水“借”入园中。《愚公谷乘》中记录了从二泉到黄公涧三百余步的水景营造，让园外涧水与园内景致浑然一体。游览愚公谷，应当先看涧，再游园：涧是天然造化，园是人工营建，愚公谷的妙处，便在于二者之间模糊交融的边界。</span>
+        <span class="lang-en">Zou Diguang did not wall the water out when building the garden; instead, he “borrowed” the waters of Chunshen Stream into the composition. In Record of Yugong Valley, he documented his waterscape design stretching more than three hundred paces from the Second Spring to Huanggong Stream, blending the external stream and internal garden scenes into one. The proper way to visit Yugong Valley is to view the stream first, then the garden: the stream is nature’s creation, the garden man’s craft. The charm of Yugong Valley lies in the blurred boundary between the two.</span>
+      </p>
+      <div class="my-4 h-72 rounded overflow-hidden shadow">
+        <img src="./ygg2.jpg" alt="春申涧石牌坊实景" class="w-full h-full object-contain" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 诗文与名士往事 -->
+  <section id="poem" class="mb-16 anchor-offset">
+    <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+      <span class="lang-zh">诗文与名士往事</span>
+      <span class="lang-en">Verses, Figures and Bygone Splendour</span>
+    </h2>
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 mb-6 border border-white">
+      <h3 class="text-xl font-bold mb-3">
+        <span class="lang-zh">古代诗文选读</span>
+        <span class="lang-en">Selected Poems</span>
+      </h3>
+
+      <div class="mb-5">
+        <h4 class="font-semibold">
+          <span class="lang-zh">王士祯《入春申涧第一曲访愚公谷》</span>
+          <span class="lang-en">Wang Shizhen, Visiting Yugong Valley at the First Bend of Chunshen Stream</span>
+        </h4>
+        <blockquote class="pl-4 border-l-2 border-amber-500 italic my-3">
+          <div class="lang-zh">
+已探鸿渐泉，遂访愚公谷。<br>
+名园倚申涧，登顿穷九曲。<br>
+春雨响寒山，入门乱飞瀑。<br>
+叠阁瞰回峦，广池漱明玉。
+          </div>
+          <div class="lang-en">
+Having explored the Spring of Hongjian, I visit Yugong Valley.<br>
+The famed garden leans on Shen Stream; I climb and wind through nine bends.<br>
+Spring rain murmurs on cold hills; waterfalls burst at the gate.<br>
+Tiered pavilions overlook winding ridges; a broad pool rinses jade‑bright ripples.
+          </div>
+        </blockquote>
+        <p class="text-sm text-stone-600">
+          <span class="lang-zh">解读：王士祯先游览天下第二泉，顺着春申涧寻访愚公谷。“春雨响寒山，入门乱飞瀑”写出园林紧贴涧流的特色，愚公谷的入口，并非规整门楼，而是沿着山涧向上的步道。</span>
+          <span class="lang-en">Note: Wang Shizhen travelled first to the Second Spring under Heaven, then followed Chunshen Stream upstream to Yugong Valley. The couplet vividly captures the garden’s identity against the stream. The “entrance” was not a neat gatehouse, but a path tracing the stream uphill.</span>
+        </p>
+      </div>
+
+      <div class="mb-5">
+        <h4 class="font-semibold">
+          <span class="lang-zh">厉鹗《王蒻林司勋邀游惠山访愚公谷四首·其四》</span>
+          <span class="lang-en">Li E, Invited by Director Wang Ruolin to Visit Huishan and Seek Yugong Valley (IV)</span>
+        </h4>
+        <blockquote class="pl-4 border-l-2 border-amber-500 italic my-3">
+          <div class="lang-zh">
+山围屋角木阴攒，㶁㶁春申涧响寒。<br>
+我辈向耽荒率味，不须金粉画阑干。
+          </div>
+          <div class="lang-en">
+Hills hem the roof, tree shadows cluster thick;<br>
+Chunshen Stream gurgles, its water chill.<br>
+We who love the unadorned, rustic charm<br>
+Need no railings painted with gold powder.
+          </div>
+        </blockquote>
+        <p class="text-sm text-stone-600">
+          <span class="lang-zh">解读：厉鹗欣赏愚公谷朴素野逸的气质，山林环抱、涧水清寒，不需要华丽雕饰。时隔百年，和邹迪光以“愚”命名园林的初心遥相呼应。</span>
+          <span class="lang-en">Note: Li E cherished Yugong Valley’s rustic quality. A hundred years later, this aesthetic resonates with Zou Diguang’s original spirit in naming the garden “Foolish”.</span>
+        </p>
+      </div>
+
+      <div class="mb-5">
+        <h4 class="font-semibold">
+          <span class="lang-zh">邹迪光《春申涧第一曲》小序</span>
+          <span class="lang-en">Excerpt from Zou Diguang’s preface to The First Bend of Chunshen Stream</span>
+        </h4>
+        <blockquote class="pl-4 border-l-2 border-amber-500 italic my-3">
+          <div class="lang-zh">
+从二泉亭西折入狭道，古木数株，草蔚梳风，凡二百武许而得一亭，据水口，是为春申涧第一曲。
+          </div>
+          <div class="lang-en">
+Turning west from the Second Spring Pavilion into a narrow path, past several ancient trees and wind‑swept lush grass, some two hundred paces onward stands a pavilion perched at the water mouth — this is the First Bend of Chunshen Stream.
+          </div>
+        </blockquote>
+        <p class="text-sm text-stone-600">
+          <span class="lang-zh">解读：园主本人的记录，描写从二泉亭走向园林的行路体验，穿过古木草丛，行走二百步，水口之上一座亭子，便是愚公谷的第一处景观。</span>
+          <span class="lang-en">Note: These are the garden‑owner’s own words, recording the walk from Second‑Spring Pavilion towards the garden.</span>
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold">
+          <span class="lang-zh">楹联拾遗</span>
+          <span class="lang-en">Surviving Couplets</span>
+        </h4>
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          <li>
+            <span class="lang-zh">荷轩联：得山水清气，极天地大观。（钱松喦八十四岁书写）</span>
+            <span class="lang-en">Lotus‑Pavilion: Draw pure aura from mountains and waters; behold the grand vista of heaven and earth. (Inscribed by Qian Songyan at age 84)</span>
+          </li>
+          <li>
+            <span class="lang-zh">滤泉枝峰阁古联：扫石月盈帚，滤泉花满筛。</span>
+            <span class="lang-en">Lvquan‑Zhifeng‑Pavilion: Sweeping stone, the moon fills my broom; filtering spring water, flowers fill my sieve.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 border border-white">
+      <h3 class="text-xl font-bold mb-3">
+        <span class="lang-zh">名士往事：晚明的文人沙龙</span>
+        <span class="lang-en">Stories of Notable Visitors: Another Cultural Hub</span>
+      </h3>
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">邹迪光修建愚公谷，不只为个人隐居。依靠广泛交游，这里成为晚明吴地十分活跃的士人文化中心。文坛名士、布衣山人、画家篆刻家、朝中高官汇聚于此，作诗结社、挥毫作画、参禅论道、欣赏戏曲。</span>
+        <span class="lang-en">Zou Diguang built Yugong Valley not only as his private retreat. Through his wide network of acquaintances, he turned it into an active literati circle in Wu during the late Ming. Men of letters, reclusive scholars, painters, seal‑carvers and senior officials gathered here to compose poems, paint, practise meditation and enjoy opera.</span>
+      </p>
+      <p class="leading-relaxed mb-4">
+        <span class="lang-zh">愚公谷昆曲活动尤其出名，邹迪光自家拥有邹氏家班，声名远扬，此地成为当时昆曲重要活动场地，邹迪光还曾与汤显祖在此诗文唱和。如果说寄畅园属于秦氏家族，愚公谷更像是依托园主人才情与人脉形成的文人沙龙。</span>
+        <span class="lang-en">Of particular note is Kunqu Opera. Zou Diguang maintained his private Zou Family Troupe, which won great renown. Yugong Valley became a key venue for Kunqu performance, and Zou Diguang exchanged poems with Tang Xianzu here. If Jichang Garden was a clan garden for the Qin family, Yugong Valley functioned more as a literati salon bound together by the owner’s talent and social connections.</span>
+      </p>
+      <p class="leading-relaxed">
+        <span class="lang-zh">惠山龙头河口的千人报德坊（今人“人杰地灵”坊），是万历年间邹迪光弟子感念师恩所建，相传坊上文字出自其子邹德基之手。虽然愚公谷在明末渐渐荒废，但这份人文纽带依旧留存。</span>
+        <span class="lang-en">A lingering afternote: the Thousand‑Person Virtue Memorial Archway at the Dragon‑Head‑River mouth of Huishan (today’s Ren‑Jie‑Di‑Ling Archway) was erected by Zou Diguang’s disciples in the Wanli era to honour his teaching. Its calligraphy is said to be the work of his son Zou Deji. Though Yugong Valley gradually fell into ruin by the late Ming, this bond between Zou Diguang and Huishan endured.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 游览导览 -->
+  <section id="tour" class="mb-16 anchor-offset">
+    <h2 class="text-3xl text-tea font-bold border-l-4 border-tea pl-3 mb-6">
+      <span class="lang-zh">游览导览</span>
+      <span class="lang-en">Tour Guide</span>
+    </h2>
+    <div class="bg-white/80 backdrop-blur rounded-lg shadow p-6 border border-white">
+      <h3 class="text-xl font-bold mb-3">
+        <span class="lang-zh">推荐游览动线：春申涧 → 愚公谷 → 华孝子祠 → 天下第二泉 → 寄畅园</span>
+        <span class="lang-en">Recommended Route: Chunshen Stream → Yugong Valley → Hua‑Filial‑Son Shrine → Second‑Best‑Spring → Jichang Garden</span>
+      </h3>
+      <p class="leading-relaxed mb-6">
+        <span class="lang-zh">顺着春申涧溯流而上，先感受愚公谷所借来的山涧水源；再进入愚公谷，参观荷轩、滤泉、古玉兰。出门右转抵达华孝子祠，感受祠堂文化；继续步行前往天下第二泉、寄畅园，完成从晚明文人园林，走向江南名园典范的游览体验。</span>
+        <span class="lang-en">Walk upstream alongside Chunshen Stream to experience the borrowed mountain‑stream scenery of Yugong Valley, then visit Lotus Pavilion, Lvquan Spring and old magnolia trees. Turn right to Hua‑Filial‑Son Shrine, then proceed to the Second‑Best‑Spring and Jichang Garden, completing your tour from late‑Ming literati garden to the classic Jiangnan garden masterpiece.</span>
+      </p>
+
+      <!-- 桌面端：横向依次向右箭头 -->
+      <div class="hidden md:grid grid-cols-11 items-center gap-4">
+        <div class="col-span-2 flex flex-col">
+          <div class="h-48 rounded overflow-hidden shadow">
+            <img src="./ygg2.jpg" alt="春申涧" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium">
+            <span class="lang-zh">春申涧</span>
+            <span class="lang-en">Chunshen Stream</span>
+          </p>
+        </div>
+
+        <div class="col-span-1 flex justify-center">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+          <div class="h-48 rounded overflow-hidden shadow">
+            <img src="./ygg1.jpg" alt="愚公谷" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium">
+            <span class="lang-zh">愚公谷</span>
+            <span class="lang-en">Yugong Valley</span>
+          </p>
+        </div>
+
+        <div class="col-span-1 flex justify-center">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+          <div class="h-48 rounded overflow-hidden shadow">
+            <img src="./ygg3.jpg" alt="华孝子祠" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium">
+            <span class="lang-zh">华孝子祠</span>
+            <span class="lang-en">Hua‑Filial‑Son Shrine</span>
+          </p>
+        </div>
+
+        <div class="col-span-1 flex justify-center">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+          <div class="h-48 rounded overflow-hidden shadow">
+            <img src="./ygg4.jpg" alt="天下第二泉" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium">
+            <span class="lang-zh">天下第二泉</span>
+            <span class="lang-en">Second‑Best‑Spring</span>
+          </p>
+        </div>
+
+        <div class="col-span-1 flex justify-center">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+          <div class="h-48 rounded overflow-hidden shadow">
+            <img src="./ygg5.jpg" alt="寄畅园" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium">
+            <span class="lang-zh">寄畅园</span>
+            <span class="lang-en">Jichang Garden</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 移动端：两列展示，箭头放在两列之间 -->
+      <div class="md:hidden grid grid-cols-2 gap-4">
+        <div class="flex flex-col">
+          <div class="h-40 rounded overflow-hidden shadow">
+            <img src="./csj.jpg" alt="春申涧" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium text-sm">
+            <span class="lang-zh">春申涧</span>
+            <span class="lang-en">Chunshen Stream</span>
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <div class="h-40 rounded overflow-hidden shadow">
+            <img src="./ygggate.jpg" alt="愚公谷" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium text-sm">
+            <span class="lang-zh">愚公谷</span>
+            <span class="lang-en">Yugong Valley</span>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-center col-span-2">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="flex flex-col">
+          <div class="h-40 rounded overflow-hidden shadow">
+            <img src="./huaxiaozi.jpg" alt="华孝子祠" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium text-sm">
+            <span class="lang-zh">华孝子祠</span>
+            <span class="lang-en">Hua‑Filial‑Son Shrine</span>
+          </p>
+        </div>
+        <div class="flex flex-col">
+          <div class="h-40 rounded overflow-hidden shadow">
+            <img src="./di2quan.jpg" alt="天下第二泉" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium text-sm">
+            <span class="lang-zh">天下第二泉</span>
+            <span class="lang-en">Second‑Best‑Spring</span>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-center col-span-2">
+          <i class="fa fa-long-arrow-right route-arrow"></i>
+        </div>
+
+        <div class="col-span-2 flex flex-col">
+          <div class="h-40 rounded overflow-hidden shadow">
+            <img src="./jichangyuan.jpg" alt="寄畅园" class="w-full h-full object-cover" />
+          </div>
+          <p class="mt-2 text-center font-medium text-sm">
+            <span class="lang-zh">寄畅园</span>
+            <span class="lang-en">Jichang Garden</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 地图放大弹窗 -->
+<div id="mapModal" class="fixed inset-0 z-[100] bg-black/85 hidden flex items-center justify-center p-4">
+  <div class="relative max-w-5xl w-full">
+    <button id="closeMapModal" class="absolute -top-10 right-0 text-white text-3xl">&times;</button>
+    <img id="modalMapImg" src="./map.jpg" alt="导览地图放大" class="w-full object-contain" />
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="bg-tea text-white py-8 text-centaer">
+  <p>
+    <span class="lang-zh">愚公谷｜无锡惠山古镇</span>
+    <span class="lang-en">Yugong Valley | Huishan Ancient‑Town Wuxi</span>
+  </p>
+  <p class="text-sm mt-2">
+    <span class="lang-zh">仅供文化科普展示页面</span>
+    <span class="lang-en">For cultural science‑popularization display only</span>
+  </p>
+</footer>
+
+<script>
+  //轮播逻辑
+  const wrapper = document.getElementById('carousel-wrapper');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dots = document.querySelectorAll('.dot');
+  let index = 0;
+  const total = 3;
+
+  function updateCarousel() {
+    wrapper.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot, i) => {
+      dot.style.backgroundColor = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)';
+    });
+  }
+
+  function next() {
+    index = (index + 1) % total;
+    updateCarousel();
+  }
+
+  function prev() {
+    index = (index - 1 + total) % total;
+    updateCarousel();
+  }
+
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      index = i;
+      updateCarousel();
+    });
+  });
+
+  let timer = setInterval(next,4500);
+  document.getElementById('carousel').addEventListener('mouseenter',()=>clearInterval(timer));
+  document.getElementById('carousel').addEventListener('mouseleave',()=>timer = setInterval(next,4500));
+
+  //锚点平滑滚动
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  //地图弹窗
+  const mapModal = document.getElementById('mapModal');
+  const closeMapModal = document.getElementById('closeMapModal');
+  const mapClickWrap = document.getElementById('mapClickWrap');
+
+  function openMapModal() {
+    mapModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMapModalFunc() {
+    mapModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  mapClickWrap.addEventListener('click', openMapModal);
+  closeMapModal.addEventListener('click', closeMapModalFunc);
+  mapModal.addEventListener('click',function(e){
+    if(e.target === mapModal) closeMapModalFunc();
+  })
+
+  // ========== 中英文切换函数 ==========
+  const html = document.documentElement;
+  const btnZh = document.getElementById('btnZh');
+  const btnEn = document.getElementById('btnEn');
+
+  function setLang(lang){
+    if(lang === 'zh'){
+      html.setAttribute('lang','zh‑CN');
+      btnZh.className = 'px-3 py-1 rounded bg-amber-200/90 text-tea mr-1';
+      btnEn.className = 'px-3 py-1 rounded bg-white/20 text-white';
+    }else{
+      html.setAttribute('lang','en');
+      btnEn.className = 'px-3 py-1 rounded bg-amber-200/90 text-tea';
+      btnZh.className = 'px-3 py-1 rounded bg-white/20 text-white mr-1';
+    }
+  }
+</script>
+
+</body>
+</html>
+
