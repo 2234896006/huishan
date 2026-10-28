@@ -85,14 +85,14 @@ tailwind.config = {
     transform: scale(1.004);
   }
 
-  /* 首屏右上角语言切换按钮容器 */
-  .hero-lang-switch{
+  /* 首屏内按钮容器 */
+  .hero-lang-wrap{
     position:absolute;
     top:20px;
     right:20px;
     z-index:20;
   }
-  .hero-lang-switch button{
+  .lang-switch-buttons button{
     backdrop-filter: blur(6px);
   }
 
@@ -238,10 +238,10 @@ tailwind.config = {
 </head>
 <body class="text-stone-800 font-song">
 
-<!-- ========== 首屏封面【语言切换按钮放在首屏右上角】 ========== -->
+<!-- ========== 首屏封面 ========== -->
 <section class="ygg-hero" id="hero" onclick="document.getElementById('main-content').scrollIntoView({behavior:'smooth'})">
-  <!-- 首屏右上角语言切换，阻止冒泡，点击不会触发跳转 -->
-  <div class="hero-lang-switch">
+  <!-- 首屏内按钮容器 -->
+  <div class="hero-lang-wrap lang-switch-buttons" id="heroButtonWrap">
     <button id="btnZh" onclick="setLang('zh');event.stopPropagation();" class="px-3 py-1 rounded bg-amber-200/90 text-tea mr-1">中文</button>
     <button id="btnEn" onclick="setLang('en');event.stopPropagation();" class="px-3 py-1 rounded bg-white/20 text-white">English</button>
   </div>
@@ -289,7 +289,7 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ========= 导航栏【移除导航栏上的语言切换按钮】 ========= -->
+<!-- ========= 导航栏，预留按钮占位容器 navButtonWrap ========= -->
 <nav class="sticky top-0 bg-tea text-white shadow-md z-50">
   <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-2 items-center justify-center">
     <a href="#intro" class="hover:text-amber-200 transition">
@@ -316,6 +316,8 @@ tailwind.config = {
       <span class="lang-zh">游览导览</span>
       <span class="lang-en">Tour Guide</span>
     </a>
+    <!--导航栏里的占位容器 -->
+    <div id="navButtonWrap" class="ml-3 lang-switch-buttons"></div>
   </div>
 </nav>
 
@@ -384,7 +386,7 @@ tailwind.config = {
           <span class="lang-en">Tour Map (Click to enlarge)</span>
         </h3>
         <div id="mapClickWrap" class="h-64 bg-stone-100 rounded overflow-hidden cursor-pointer">
-          <img src="./dl.jpeg" alt="惠山古镇手绘导览地图，标记愚公谷位置" class="w-full h-full object-contain" />
+          <img src="./map.jpg" alt="惠山古镇手绘导览地图，标记愚公谷位置" class="w-full h-full object-contain" />
         </div>
         <p class="mt-3 text-sm text-stone-600">
           <span class="lang-zh">地址：无锡惠山东麓，惠山古镇景区内，春申涧第一曲旁</span>
@@ -437,6 +439,9 @@ tailwind.config = {
         <span class="lang-zh">他不只是园林主人，同时也是高产诗人与园林记录者。撰写的《愚公谷乘》，是文笔优美的造园专著；还创作《愚公谷五言律诗六十首》，园中六十处景点，一景对应一首诗。从第一景“春申涧第一曲”到第六十景“石语斋”，六十景各有名目，各配诗作。这种一景一诗完整配套的模式，在明代私家园林中十分少见。</span>
         <span class="lang-en">What sets him apart is that he was not merely a garden owner, but also a prolific poet and meticulous chronicler of garden design. His Record of Yugong Valley is regarded in garden studies as an elegantly written treatise on garden‑making. He also composed sixty five‑character regulated verses for Yugong Valley, with one poem dedicated to each scenic spot. From the first view “The First Bend of Chunshen Stream” to the sixtieth “Stone Whisper Studio”, every spot had its own title and matching poem. Such a complete scheme of one scene, one poem was rare among private gardens of the Ming Dynasty.</span>
       </p>
+      <div class="my-4 h-72 rounded overflow-hidden shadow">
+        <img src="./zoudiguang.jpg" alt="邹迪光画像" class="w-full h-full object-contain" />
+      </div>
     </div>
   </section>
 
@@ -456,7 +461,7 @@ tailwind.config = {
         <span class="lang-en">Zou Diguang did not wall the water out when building the garden; instead, he “borrowed” the waters of Chunshen Stream into the composition. In Record of Yugong Valley, he documented his waterscape design stretching more than three hundred paces from the Second Spring to Huanggong Stream, blending the external stream and internal garden scenes into one. The proper way to visit Yugong Valley is to view the stream first, then the garden: the stream is nature’s creation, the garden man’s craft. The charm of Yugong Valley lies in the blurred boundary between the two.</span>
       </p>
       <div class="my-4 h-72 rounded overflow-hidden shadow">
-        <img src="./ygg2.jpg" alt="春申涧石牌坊实景" class="w-full h-full object-contain" />
+        <img src="./chunshenjian.jpg" alt="春申涧石牌坊实景" class="w-full h-full object-contain" />
       </div>
     </div>
   </section>
@@ -598,7 +603,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
       <div class="hidden md:grid grid-cols-11 items-center gap-4">
         <div class="col-span-2 flex flex-col">
           <div class="h-48 rounded overflow-hidden shadow">
-            <img src="./ygg2.jpg" alt="春申涧" class="w-full h-full object-cover" />
+            <img src="./csj.jpg" alt="春申涧" class="w-full h-full object-cover" />
           </div>
           <p class="mt-2 text-center font-medium">
             <span class="lang-zh">春申涧</span>
@@ -612,7 +617,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
 
         <div class="col-span-2 flex flex-col">
           <div class="h-48 rounded overflow-hidden shadow">
-            <img src="./ygg1.jpg" alt="愚公谷" class="w-full h-full object-cover" />
+            <img src="./ygggate.jpg" alt="愚公谷" class="w-full h-full object-cover" />
           </div>
           <p class="mt-2 text-center font-medium">
             <span class="lang-zh">愚公谷</span>
@@ -626,7 +631,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
 
         <div class="col-span-2 flex flex-col">
           <div class="h-48 rounded overflow-hidden shadow">
-            <img src="./ygg3.jpg" alt="华孝子祠" class="w-full h-full object-cover" />
+            <img src="./huaxiaozi.jpg" alt="华孝子祠" class="w-full h-full object-cover" />
           </div>
           <p class="mt-2 text-center font-medium">
             <span class="lang-zh">华孝子祠</span>
@@ -640,7 +645,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
 
         <div class="col-span-2 flex flex-col">
           <div class="h-48 rounded overflow-hidden shadow">
-            <img src="./ygg4.jpg" alt="天下第二泉" class="w-full h-full object-cover" />
+            <img src="./di2quan.jpg" alt="天下第二泉" class="w-full h-full object-cover" />
           </div>
           <p class="mt-2 text-center font-medium">
             <span class="lang-zh">天下第二泉</span>
@@ -654,7 +659,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
 
         <div class="col-span-2 flex flex-col">
           <div class="h-48 rounded overflow-hidden shadow">
-            <img src="./ygg5.jpg" alt="寄畅园" class="w-full h-full object-cover" />
+            <img src="./jichangyuan.jpg" alt="寄畅园" class="w-full h-full object-cover" />
           </div>
           <p class="mt-2 text-center font-medium">
             <span class="lang-zh">寄畅园</span>
@@ -735,7 +740,7 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
 </div>
 
 <!-- 页脚 -->
-<footer class="bg-tea text-white py-8 text-centaer">
+<footer class="bg-tea text-white py-8 text-center">
   <p>
     <span class="lang-zh">愚公谷｜无锡惠山古镇</span>
     <span class="lang-en">Yugong Valley | Huishan Ancient‑Town Wuxi</span>
@@ -829,8 +834,38 @@ Turning west from the Second Spring Pavilion into a narrow path, past several an
       btnZh.className = 'px-3 py-1 rounded bg-white/20 text-white mr-1';
     }
   }
+
+  // ========= 滚动监听：按钮在首屏右上角 / 导航栏自动移动 =========
+  const hero = document.getElementById('hero');
+  const heroButtonWrap = document.getElementById('heroButtonWrap');
+  const navButtonWrap = document.getElementById('navButtonWrap');
+  let isInHero = true;
+
+  const observer = new IntersectionObserver((entries)=>{
+    const entry = entries[0];
+    if(entry.isIntersecting){
+      //首屏hero可见：把按钮移回首屏容器
+      if(!isInHero){
+        heroButtonWrap.appendChild(btnZh);
+        heroButtonWrap.appendChild(btnEn);
+        isInHero = true;
+      }
+    }else{
+      //首屏hero完全离开视口：把按钮移动到导航栏占位容器
+      if(isInHero){
+        navButtonWrap.appendChild(btnZh);
+        navButtonWrap.appendChild(btnEn);
+        isInHero = false;
+      }
+    }
+  },{
+    threshold:0
+  })
+  observer.observe(hero);
+
 </script>
 
 </body>
 </html>
+
 
